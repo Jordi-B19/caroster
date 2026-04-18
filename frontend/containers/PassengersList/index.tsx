@@ -1,4 +1,4 @@
-import {ListItem, List, Box} from '@mui/material';
+import {List, Box} from '@mantine/core';
 import Passenger from './Passenger';
 import {PassengerEntity, TravelEntity} from '../../generated/graphql';
 import {ReactNode} from 'react';
@@ -15,12 +15,12 @@ const PassengersList = (props: Props) => {
 
   return (
     <Box pb={1}>
-      <List disablePadding>
+      <List>
         {passengers?.map((passenger, index) => (
-          <ListItem
+          <List.Item
             key={index}
-            button={!!onClickPassenger}
             onClick={() => onClickPassenger?.(passenger.id)}
+            style={{ cursor: onClickPassenger ? 'pointer' : 'default' }}
           >
             <Passenger
               key={index}
@@ -31,7 +31,7 @@ const PassengersList = (props: Props) => {
               isTravel={!!travel}
               Actions={Actions}
             />
-          </ListItem>
+          </List.Item>
         ))}
       </List>
     </Box>

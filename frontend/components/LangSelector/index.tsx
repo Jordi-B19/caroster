@@ -1,7 +1,5 @@
-import FormControl from '@mui/material/FormControl';
+import {Select} from '@mantine/core';
 import {Enum_Event_Lang} from '../../generated/graphql';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import {langs, langLocales} from '../../locales/constants';
 
 type Props = {
@@ -11,24 +9,19 @@ type Props = {
 
 const LangSelector = (props: Props) => {
   return (
-    <FormControl fullWidth>
-      <Select
-        labelId="lang-selector"
-        id="lang-selector"
-        variant="standard"
-        value={props.value}
-        onChange={e => props.onChange(e.target.value)}
-      >
-        {langs.map(
-          lang =>
-            langLocales[lang] && (
-              <MenuItem value={lang} key={lang}>
-                {langLocales[lang]}
-              </MenuItem>
-            )
-        )}
-      </Select>
-    </FormControl>
+    <Select
+      labelId="lang-selector"
+      id="lang-selector"
+      value={props.value}
+      onChange={(value) => props.onChange(value as Enum_Event_Lang)}
+      data={langs
+        .filter((lang) => !!langLocales[lang])
+        .map((lang) => ({
+          value: lang,
+          label: langLocales[lang],
+        }))}
+    />
   );
 };
+
 export default LangSelector;

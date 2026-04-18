@@ -1,7 +1,6 @@
 import {useState} from 'react';
-import Icon from '@mui/material/Icon';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import {Box, Button} from '@mantine/core';
+import {IconX} from '@tabler/icons-react';
 import Markdown from '../Markdown';
 import {hashText, setCookie} from '../../lib/cookies';
 import theme from '../../theme';
@@ -20,7 +19,7 @@ const Banner = (props: Props) => {
   );
 
   const onBannerClear = () => {
-    const hashedMessage = hashText(announcement);
+    const hashedMessage = hashText(announcement!);
     setCookie(ANNOUNCEMENT_COOKIE, hashedMessage);
     setShowBanner(false);
   };
@@ -29,13 +28,13 @@ const Banner = (props: Props) => {
 
   return (
     <Box
-      sx={{
+      style={{
         position: 'relative',
         background: `linear-gradient(90deg, #FCDC61 20%, #78B2AC 90%)`,
         width: '100%',
         padding: '12px 60px',
         textAlign: 'center',
-        zIndex: theme.zIndex.appBar - 1,
+        zIndex: -1,
         color: 'black',
       }}
     >
@@ -53,21 +52,21 @@ const Banner = (props: Props) => {
         {announcement}
       </Markdown>
       <Button
-        sx={{
-          position: 'absolute',
-          right: '12px',
-          bottom: '50%',
-          transform: 'translateY(50%)',
-          minWidth: '44px',
-          padding: '12px',
-          lineHeight: '1.4em',
-        }}
+        variant="subtle"
         onClick={e => {
           e.stopPropagation();
           onBannerClear();
         }}
+        style={{
+          position: 'absolute',
+          right: '12px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          minWidth: '44px',
+          padding: '12px',
+        }}
       >
-        <Icon>close</Icon>
+        <IconX size={20} />
       </Button>
     </Box>
   );

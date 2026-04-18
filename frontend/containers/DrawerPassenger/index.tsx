@@ -1,8 +1,9 @@
-import {Drawer, Typography, useMediaQuery, Link, Box} from '@mui/material';
-import {useTranslation} from 'next-i18next';
-import {CountryIso2} from 'react-international-phone';
+import React from 'react';
+import { Drawer, Text, Box, Anchor } from '@mantine/core';
+import { useTranslation } from 'next-i18next';
 import DrawerPassengerHeader from './DrawerPassengerHeader';
-import {getFormatedPhoneNumber} from '../../lib/phoneNumbers';
+import { getFormatedPhoneNumber } from '../../lib/phoneNumbers';
+import { CountryIso2 } from 'react-international-phone';
 
 interface Props {
   isOpen: boolean;
@@ -14,83 +15,33 @@ interface Props {
   phoneCountry?: '' | CountryIso2;
 }
 
-const DrawerPassenger = ({
-  isOpen,
-  onClose,
-  lastName,
-  firstName,
-  email,
-  phone,
-  phoneCountry,
-}: Props) => {
-  const {t} = useTranslation();
-  const isMobile = useMediaQuery('(max-width:400px)');
+const DrawerPassenger = ({ isOpen, onClose, lastName, firstName, email, phone, phoneCountry }: Props) => {
+  const { t } = useTranslation();
+  const isMobile = false; // simplified for Mantine; Drawer width handles responsiveness
 
   return (
-    <Drawer
-      anchor="right"
-      open={isOpen}
-      onClose={onClose}
-      sx={{
-        height: 'auto',
-        '& .MuiDrawer-paper': {
-          width: isMobile ? '100%' : '375px',
-          maxWidth: '100%',
-        },
-      }}
-    >
-      <Box bgcolor="background.default" sx={{height: '100%', overflow: 'auto'}}>
+    <Drawer opened={isOpen} onClose={onClose} position="right" padding="md" size={isMobile ? '100%' : 375}>
+      <Box>
         <DrawerPassengerHeader isMobile={isMobile} onClose={onClose} />
-        <Box
-          display="flex"
-          flexDirection="column"
-          gap={2}
-          bgcolor="white"
-          padding={2}
-        >
-          <Box display="flex" flexDirection="column">
-            <Typography variant="h6">
-              {t('passenger.informations.name.label')}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              {firstName}
-            </Typography>
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: 8, padding: 8 }}>
+          <Box>
+            <Text style={{fontWeight:600}}>{t('passenger.informations.name.label')}</Text>
+            <Text style={{marginTop:4}}>{firstName}</Text>
           </Box>
-          <Box display="flex" flexDirection="column">
-            <Typography variant="h6">
-              {t('passenger.informations.surname.label')}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              {lastName}
-            </Typography>
+          <Box>
+            <Text style={{fontWeight:600}}>{t('passenger.informations.surname.label')}</Text>
+            <Text style={{marginTop:4}}>{lastName}</Text>
           </Box>
-          <Box display="flex" flexDirection="column">
-            <Typography variant="h6">
-              {t('passenger.informations.email.label')}
-            </Typography>
-            <Link
-              sx={{display: 'flex', flexDirection: 'row', gap: 1}}
-              href={`mailto:${email}`}
-            >
-              {email}
-            </Link>
+          <Box>
+            <Text style={{fontWeight:600}}>{t('passenger.informations.email.label')}</Text>
+            <Anchor href={`mailto:${email}`}>{email}</Anchor>
           </Box>
-          <Box display="flex" flexDirection="column">
-            <Typography variant="h6">
-              {t('passenger.informations.phone.label')}
-            </Typography>
+          <Box>
+            <Text style={{fontWeight:600}}>{t('passenger.informations.phone.label')}</Text>
             {phone ? (
-              <Link
-                sx={{display: 'flex', flexDirection: 'row', gap: 1}}
-                href={`tel:${phone}`}
-              >
-                {getFormatedPhoneNumber({phone, phoneCountry})}
-              </Link>
+              <Anchor href={`tel:${phone}`}>{phone}</Anchor>
             ) : (
-              <Typography variant="body1">
-                {t('passenger.informations.notSpecify')},{' '}
-                {t('passenger.informations.byAdmin')}
-              </Typography>
+              <Text style={{ color: 'gray' }}>{t('passenger.informations.notSpecify')}, {t('passenger.informations.byAdmin')}</Text>
             )}
           </Box>
         </Box>

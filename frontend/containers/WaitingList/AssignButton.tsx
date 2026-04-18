@@ -1,8 +1,6 @@
-import IconButton from '@mui/material/IconButton';
-import Icon from '@mui/material/Icon';
+import {IconButton} from '../../components/mui-wrappers';
+import {IconChevronRight} from '@tabler/icons-react';
 import {useTranslation} from 'next-i18next';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
-import theme from '../../theme';
 
 interface Props {
   onClick: () => void;
@@ -15,20 +13,12 @@ const AssignButton = (props: Props) => {
   const {t} = useTranslation();
 
   return (
-    <ListItemSecondaryAction onClick={onClick} tabIndex={tabIndex}>
-      <IconButton
-        sx={{
-          borderRadius: 1,
-          fontSize: theme.typography.button,
-          padding: 0,
-          color: props.disabled ? 'black' : theme.palette.primary.main,
-        }}
-        disabled={props.disabled}
-      >
+    <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }} onClick={onClick} tabIndex={tabIndex}>
+      <IconButton disabled={props.disabled} style={{ padding: 0 }}>
         {t('passenger.actions.place')}
-        <Icon>chevron_right</Icon>
+        <IconChevronRight size={16} />
       </IconButton>
-    </ListItemSecondaryAction>
+    </div>
   );
 };
 

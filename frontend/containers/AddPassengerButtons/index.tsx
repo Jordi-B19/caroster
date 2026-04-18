@@ -1,5 +1,4 @@
-import {Stack} from '@mui/material';
-import Button from '@mui/material/Button';
+import {Stack, Button} from '@mantine/core';
 import {useTranslation} from 'next-i18next';
 import useEventStore from '../../stores/useEventStore';
 import {useSession} from 'next-auth/react';
@@ -50,11 +49,9 @@ const AddPassengerButtons = (props: Props) => {
 
   return (
     <>
-      <Stack spacing={2} p={1}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, padding: 8 }}>
         {(isCarosterPlus || isAuthenticated) && (
           <Button
-            variant="contained"
-            color="primary"
             fullWidth
             onClick={onClickAddSelf}
             disabled={disabled || registered}
@@ -68,16 +65,15 @@ const AddPassengerButtons = (props: Props) => {
         )}
         {!isCarosterPlus && (
           <Button
-            variant="outlined"
-            color="primary"
             fullWidth
             onClick={onAddOther}
             disabled={disabled}
+            variant="outline"
           >
             {t(ADD_TO_LOCALE[variant])}
           </Button>
         )}
-      </Stack>
+      </div>
       <LoginDialog
         title={t`travel.passengers.add_me`}
         content={t`travel.passengers.add_me.loginNotice`}

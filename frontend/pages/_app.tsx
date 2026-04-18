@@ -2,13 +2,11 @@ import {useEffect} from 'react';
 import 'leaflet/dist/leaflet.css';
 import '../public/leaflet_reset.css';
 import Head from 'next/head';
-import CssBaseline from '@mui/material/CssBaseline';
-import {ThemeProvider, Theme} from '@mui/material/styles';
+import {MantineProvider} from '@mantine/core';
+import {Notifications} from '@mantine/notifications';
 import {AppProps} from 'next/app';
 import {appWithTranslation, UserConfig} from 'next-i18next';
 import {ApolloProvider} from '@apollo/client';
-import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment';
 import {SessionProvider} from 'next-auth/react';
 import Metas from '../containers/Metas';
 import Toasts from '../components/Toasts';
@@ -18,10 +16,6 @@ import {useApollo} from '../lib/apolloClient';
 import nextI18NextConfig from '../next-i18next.config.js';
 import moment from 'moment';
 import useTolgee from '../hooks/useTolgee';
-
-declare module '@mui/styles/defaultTheme' {
-  interface DefaultTheme extends Theme {}
-}
 
 const App = function (props: AppProps) {
   const {Component, pageProps} = props;
@@ -33,7 +27,7 @@ const App = function (props: AppProps) {
 
   useEffect(() => {
     // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector('#jss-server-side');
+    const jssStyles = document.querySelector('#jss-serverside');
     if (jssStyles) {
       jssStyles.parentElement!.removeChild(jssStyles);
     }
@@ -42,28 +36,22 @@ const App = function (props: AppProps) {
   return (
     <ApolloProvider client={apolloClient}>
       <Metas metas={pageProps.metas} />
-      <ThemeProvider theme={theme}>
-        <LocalizationProvider
-          dateAdapter={AdapterMoment}
-          dateLibInstance={moment}
-          adapterLocale={locale}
-        >
-          <CssBaseline />
-          <Head>
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1, maximum-scale=1"
-            />
-          </Head>
-          <Component {...pageProps} />
-          <Toasts />
-        </LocalizationProvider>
-      </ThemeProvider>
+      <MantineProvider theme={theme}>
+        <Notifications />
+        <Head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1"
+          />
+        </Head>
+        <Component {...pageProps} />
+        <Toasts />
+      </MantineProvider>
     </ApolloProvider>
   );
 };
 
-const AppWrapper = (props: AppProps) => (
+const AppWrapper = (props: AppProps)	=> (
   <SessionProvider session={props?.pageProps.session} basePath="/api/nauth">
     <App {...props} />
   </SessionProvider>

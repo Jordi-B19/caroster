@@ -1,11 +1,5 @@
 import React, {useState} from 'react';
-import {
-  Button,
-  FormControl,
-  TextField,
-  InputAdornment,
-  Stack,
-} from '@mui/material';
+import {Button, Stack, TextInput} from '@mantine/core';
 import {useTranslation} from 'next-i18next';
 import {EventEntity, TripAlertEntity} from '../../generated/graphql';
 import PlaceInput from '../PlaceInput';
@@ -32,7 +26,7 @@ const AlertsForm = ({event, tripAlertEntity, disabled}: Props) => {
   const [radius, setRadius] = useState(tripAlertEntity?.attributes.radius || 0);
   const [formModified, setFormModified] = useState(false);
 
-  const handleRadiusChange = e => {
+  const handleRadiusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRadius(Number(e.target.value));
     setFormModified(true);
   };
@@ -54,36 +48,30 @@ const AlertsForm = ({event, tripAlertEntity, disabled}: Props) => {
   };
 
   return (
-    <Stack display="flex" direction="column" spacing={2}>
-      <FormControl>
-        <PlaceInput
-          label={t('alert.location.label')}
-          place={address}
-          latitude={latitude}
-          longitude={longitude}
-          onSelect={({place, latitude, longitude}) => {
-            setAddress(place);
-            setLatitude(latitude);
-            setLongitude(longitude);
-            setFormModified(true);
-          }}
-          disabled={disabled}
-        />
-      </FormControl>
-      <TextField
+    <Stack gap="md">
+      <PlaceInput
+        label={t('alert.location.label')}
+        place={address}
+        latitude={latitude}
+        longitude={longitude}
+        onSelect={({place, latitude, longitude}) => {
+          setAddress(place);
+          setLatitude(latitude);
+          setLongitude(longitude);
+          setFormModified(true);
+        }}
+        disabled={disabled}
+      />
+      <TextInput
         id="radius"
         label={t('alert.radius.label')}
-        InputProps={{
-          endAdornment: <InputAdornment position="end">km</InputAdornment>,
-        }}
-        variant="standard"
-        value={radius}
+        value={radius.toString()}
         disabled={disabled}
         onChange={handleRadiusChange}
+        rightSection="km"
       />
       <Button
-        variant="contained"
-        color="primary"
+        variant="filled"
         fullWidth
         disabled={disabledButton}
         onClick={handleCreateAlert}

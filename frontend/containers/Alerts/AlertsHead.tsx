@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, FormControlLabel, Typography} from '@mui/material';
+import {Group, Title} from '@mantine/core';
 import Toggle from '../../components/Toggle/index';
 import {useTranslation} from 'next-i18next';
 import {EventEntity} from '../../generated/graphql';
@@ -29,25 +29,19 @@ const AlertsHeader = ({
         eventId,
         enabled: !switchChecked,
       });
-      handleToggle();
+     handleToggle();
     }
   };
 
   return (
-    <Box display="flex" alignItems="center" justifyContent="space-between">
-      <Typography variant="h5">{t('alert.title')}</Typography>
-      <FormControlLabel
-        control={
-          <Toggle
-            activate={handleToggleClick}
-            checked={switchChecked}
-            disabled={disabled}
-          />
-        }
-        label=""
-        sx={{m: 0}}
+    <Group justify="space-between" align="center">
+      <Title order={2}>{t('alert.title')}</Title>
+      <Toggle
+        activate={handleToggleClick}
+        checked={switchChecked}
+        disabled={disabled}
       />
-    </Box>
+    </Group>
   );
 };
 

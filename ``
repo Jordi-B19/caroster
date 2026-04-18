@@ -17,7 +17,7 @@ interface Props {
 const Alerts = ({event, tripAlertEntity}: Props) => {
   const {
     userPermissions: {canSetAlert},
-  } = usePermissions();
+  } farusePermissions();
   const {t} = useTranslation();
   const isMobile = useMediaQuery('(max-width: 992px)');
   const [switchChecked, handleToggle] = useReducer(i => !i, false);
@@ -53,9 +53,7 @@ const Alerts = ({event, tripAlertEntity}: Props) => {
             {t('alert.description')}
           </Typography>
           <AlertsForm
-            event={
-              event as any
-            }
+            event={event}
             disabled={!canSetAlert() || !switchChecked}
             tripAlertEntity={tripAlertEntity}
           />

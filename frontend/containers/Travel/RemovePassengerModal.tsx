@@ -1,12 +1,5 @@
 import {useTranslation} from 'next-i18next';
-import {
-  Typography,
-  Dialog,
-  Button,
-  DialogContent,
-  DialogActions,
-  DialogTitle,
-} from '@mui/material';
+import {Modal, Text, Button, Group} from '@mantine/core';
 import useProfile from '../../hooks/useProfile';
 import useEventStore from '../../stores/useEventStore';
 import {PassengerEntity} from '../../generated/graphql';
@@ -37,33 +30,17 @@ const RemovePassengerModal = ({passenger, close, removePassenger}: Props) => {
   };
 
   return (
-    <Dialog open={!!passenger} onClose={close}>
-      <DialogTitle>
-        {t(
-          IsPassengerIsUser
-            ? 'travel.removePassengerModal.self.title'
-            : 'travel.removePassengerModal.title'
-        )}
-      </DialogTitle>
-      <DialogContent>
-        <Typography>{t(getDescriptionKey())}</Typography>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={close}>
+    <Modal opened={!!passenger} onClose={close} title={IsPassengerIsUser ? t('travel.removePassengerModal.self.title') : t('travel.removePassengerModal.title')} withCloseButton>
+      <Text mt="xs">{t(getDescriptionKey())}</Text>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 16 }}>
+        <Button variant="outline" onClick={close}>
           {t('travel.removePassengerModal.cancel')}
         </Button>
-        <Button
-          variant="contained"
-          onClick={() => removePassenger(passenger.id)}
-        >
-          {t(
-            IsPassengerIsUser
-              ? 'travel.removePassengerModal.self.remove'
-              : 'travel.removePassengerModal.remove'
-          )}
+        <Button onClick={() => { removePassenger(passenger.id); close(); }}>
+          {t(IsPassengerIsUser ? 'travel.removePassengerModal.self.remove' : 'travel.removePassengerModal.remove')}
         </Button>
-      </DialogActions>
-    </Dialog>
+      </div>
+    </Modal>
   );
 };
 

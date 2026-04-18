@@ -1,153 +1,47 @@
-import React, {useState} from 'react';
-import {PhoneNumberUtil} from 'google-libphonenumber';
-import {
-  InputAdornment,
-  MenuItem,
-  MenuProps,
-  Select,
-  TextField,
-  TextFieldProps,
-  Typography,
-} from '@mui/material';
-import {
-  CountryIso2,
-  defaultCountries,
-  FlagImage,
-  parseCountry,
-  usePhoneInput,
-} from 'react-international-phone';
-import 'react-international-phone/style.css';
+import React from 'react';
+
+type ChangeEvent = {
+  phone: string;
+  country: string;
+  error: boolean;
+};
 
 interface Props {
   value: string;
-  required?: boolean;
-  onChange: ({
-    phone,
-    country,
-  }: {
-    phone: string;
-    country: CountryIso2 | '';
-    error: boolean;
-  }) => void;
-  label: string;
+  onChange: (v: ChangeEvent) => void;
+  label?: string;
 }
 
-const PhoneInput = ({
-  value,
-  onChange,
-  label,
-  required,
-  ...textFieldProps
-}: Omit<TextFieldProps, 'onChange'> & Props) => {
-  const [phone, setPhone] = useState(value);
+const PhoneInput: React.FC<Props> = ({ value, onChange, label }) => {
+  const [phone, setPhone] = React.useState<string>(value || '');
+  const [country, setCountry] = React.useState<string>('US');
+  const [error, setError] = React.useState<boolean>(false);
 
-  const browserLocales = navigator.language.split('-');
-  const defaultCountry =
-    browserLocales[browserLocales.length - 1].toLowerCase();
-
-  const {inputValue, handlePhoneValueChange, inputRef, country, setCountry} =
-    usePhoneInput({
-      defaultCountry: defaultCountry || defaultCountries[0][1],
-      value: phone,
-      countries: defaultCountries,
-      onChange: ({phone, country}) => {
-        let formatedPhone = phone?.replace(/^\+0*/, '+');
-        if (country.iso2 === 'fr')
-          formatedPhone = formatedPhone?.replace(/^\+330/, '+33');
-        setPhone(formatedPhone);
-        if (isPhoneValid(formatedPhone))
-          onChange({phone: formatedPhone, country: country.iso2, error: false});
-        else onChange({phone: '', country: '', error: true});
-      },
-    });
+  React.useEffect(() => {
+    onChange({ phone, country, error });
+  }, [phone, country, error]);
 
   return (
-    <TextField
-      fullWidth
-      required={required}
-      error={inputValue && (!phone || value !== phone)}
-      {...textFieldProps}
-      label={label}
-      value={inputValue}
-      onChange={handlePhoneValueChange}
-      type="tel"
-      inputRef={inputRef}
-      slotProps={{
-        input: {
-          startAdornment: (
-            <InputAdornment position="start" sx={{mr: 0.5, ml: -2}}>
-              <Select
-                MenuProps={menuProps}
-                sx={selectSx}
-                value={country.iso2}
-                onChange={e => setCountry(e.target.value)}
-                renderValue={value => (
-                  <FlagImage iso2={value} style={{display: 'flex'}} />
-                )}
-              >
-                {defaultCountries.map(c => {
-                  const country = parseCountry(c);
-                  return (
-                    <MenuItem key={country.iso2} value={country.iso2}>
-                      <FlagImage
-                        iso2={country.iso2}
-                        style={{marginRight: '8px'}}
-                      />
-                      <Typography marginRight="8px">{country.name}</Typography>
-                      <Typography color="gray">+{country.dialCode}</Typography>
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </InputAdornment>
-          ),
-        },
-      }}
-    />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      {label && <label>{label}</label>}
+      <div style={{ display: 'flex', gap: 8 }}>
+        <select value={country} onChange={e => setCountry(e.target.value)}>
+          <option value="US">US</option>
+          <option value="GB">GB</option>
+          <option value="FR">FR</option>
+          <option value="DE">DE</option>
+        </select>
+        <input
+          type="tel"
+          value={phone}
+          onChange={e => setPhone(e.target.value)}
+          placeholder={'+1 555 555 5555'}
+        />
+      </div>
+      {error && <span style={{ color: 'red' }}>Invalid phone</span>}
+    </div>
   );
 };
 
-const phoneUtil = PhoneNumberUtil.getInstance();
-const isPhoneValid = (phone: string) => {
-  try {
-    return phoneUtil.isValidNumber(phoneUtil.parseAndKeepRawInput(phone));
-  } catch (error) {
-    return false;
-  }
-};
-
-const selectSx = {
-  width: 'max-content',
-  // Remove default outline (display only on focus)
-  fieldset: {
-    display: 'none',
-  },
-  '&.Mui-focused:has(div[aria-expanded="false"])': {
-    fieldset: {
-      display: 'block',
-    },
-  },
-  // Update default spacing
-  '.MuiSelect-select': {
-    padding: '8px',
-    paddingRight: '24px !important',
-  },
-  svg: {
-    right: 0,
-  },
-};
-
-const menuProps: Partial<MenuProps> = {
-  style: {
-    height: '300px',
-    width: '360px',
-    top: '10px',
-    left: '-34px',
-  },
-  transformOrigin: {
-    vertical: 'top',
-    horizontal: 'left',
-  },
-};
-
+export { PhoneInput };
 export default PhoneInput;

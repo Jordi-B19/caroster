@@ -1,26 +1,15 @@
 import React from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import Slide from '@mui/material/Slide';
-import Button from '@mui/material/Button';
+import {Modal, Button, Text} from '@mantine/core';
 import {useTranslation} from 'next-i18next';
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 const RemoveDialog = ({text, open, onClose, onRemove}) => {
   const {t} = useTranslation();
 
   return (
-    <Dialog open={open} TransitionComponent={Transition} onClose={onClose}>
-      <DialogContent>
-        <DialogContentText>{text}</DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} id="CarRemoveCancel">
+    <Modal opened={open} onClose={onClose} title={null} withCloseButton={false} padding="md">
+      <div>{text}</div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 12 }}>
+        <Button variant="outline" onClick={onClose} id="CarRemoveCancel">
           {t('generic.cancel')}
         </Button>
         <Button
@@ -32,8 +21,8 @@ const RemoveDialog = ({text, open, onClose, onRemove}) => {
         >
           {t('generic.confirm')}
         </Button>
-      </DialogActions>
-    </Dialog>
+      </div>
+    </Modal>
   );
 };
 

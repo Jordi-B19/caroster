@@ -1,16 +1,8 @@
-import {useReducer, useState, useMemo, useCallback} from 'react';
-import router from 'next/dist/client/router';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import Container from '@mui/material/Container';
-import TuneIcon from '@mui/icons-material/Tune';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Icon from '@mui/material/Icon';
-import Paper from '@mui/material/Paper';
-import Divider from '@mui/material/Divider';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import {useReducer, useState, useMemo, useCallback, useEffect} from 'react';
+import {useRouter} from 'next/router';
+import {Container, Paper, Divider, Typography, IconButton, Box} from '../../components/mui-wrappers';
+import {IconSettings, IconCheck, IconChevronRight, IconX} from '@tabler/icons-react';
+// Icons are replaced by simple glyphs and Mantine wrappers during migration
 import {Trans, useTranslation} from 'next-i18next';
 import useToastStore from '../../stores/useToastStore';
 import useEventStore from '../../stores/useEventStore';
@@ -19,21 +11,34 @@ import RemoveDialog from '../RemoveDialog';
 import AddPassengerButtons from '../AddPassengerButtons';
 import AssignButton from './AssignButton';
 import PassengersList from '../PassengersList';
-import theme from '../../theme';
+// theme is no longer required directly here; Mantine handles theming via MantineProvider
 
 interface Props {
-  canAddSelf: boolean;
+  canAddSelf?: boolean;
   registered: boolean;
   onAddSelf: () => void;
   onAddOther: () => void;
 }
 
 const WaitingList = (props: Props) => {
-  const {canAddSelf, registered} = props;
+  const {registered} = props;
   const {t} = useTranslation();
   const event = useEventStore(s => s.event);
-  const mobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(max-width: 768px)');
+    const update = () => setMobile(!!mq.matches);
+    update();
+    if (typeof mq.addEventListener === 'function') mq.addEventListener('change', update);
+    else if (typeof (mq as any).addListener === 'function') (mq as any).addListener(update);
+    return () => {
+      if (typeof mq.removeEventListener === 'function') mq.removeEventListener('change', update);
+      else if (typeof (mq as any).removeListener === 'function') (mq as any).removeListener(update);
+    };
+  }, []);
   const addToast = useToastStore(s => s.addToast);
+  const router = useRouter();
   const [isEditing, toggleEditing] = useReducer(i => !i, false);
   const [removingPassenger, setRemovingPassenger] = useState(null);
   const travels = useMemo(
@@ -82,27 +87,21 @@ const WaitingList = (props: Props) => {
 
   return (
     <Container
-      maxWidth="sm"
-      sx={{mt: mobile ? 15 : 11, mx: 0, px: mobile ? 2 : 4}}
+      style={{marginTop: mobile ? 60 : 40, paddingLeft: mobile ? 16 : 32, paddingRight: mobile ? 16 : 32}}
     >
-      <Paper sx={{width: '480px', maxWidth: '100%', position: 'relative'}}>
+      <Paper style={{width: '480px', maxWidth: '100%', position: 'relative'}}> 
         <Box p={2}>
           <IconButton
             size="small"
             color="primary"
-            sx={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              margin: 1,
-            }}
+            style={{position: 'absolute', top: 0, right: 0, margin: 8}}
             disabled={!event?.waitingPassengers?.data?.length}
             onClick={toggleEditing}
-          >
-            {isEditing ? <Icon>check</Icon> : <TuneIcon />}
+            >
+            {isEditing ? <IconCheck size={16} /> : <IconSettings size={16} />}
           </IconButton>
           <Typography variant="h5">{t('passenger.title')}</Typography>
-          <Typography variant="overline">
+          <Typography variant="overline" style={{display:'block'}}>
             {t('passenger.availability.seats', {count: availability})}
           </Typography>
         </Box>
@@ -110,7 +109,7 @@ const WaitingList = (props: Props) => {
         <AddPassengerButtons
           onAddOther={props.onAddOther}
           onAddSelf={props.onAddSelf}
-          canAddSelf={canAddSelf}
+          travelId={event?.uuid ?? ''}
           registered={registered}
           variant="waitingList"
         />
@@ -121,11 +120,11 @@ const WaitingList = (props: Props) => {
             onClickPassenger={onClickPassenger}
             Actions={({passenger}) =>
               isEditing ? (
-                <ListItemSecondaryAction>
-                  <IconButton size="small" color="primary">
-                    <CancelOutlinedIcon />
+                <Box style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+                  <IconButton size="small" color="primary" onClick={() => onClickPassenger(passenger.id)}>
+                    <IconX size={14} />
                   </IconButton>
-                </ListItemSecondaryAction>
+                </Box>
               ) : (
                 <AssignButton
                   tabIndex={-1}

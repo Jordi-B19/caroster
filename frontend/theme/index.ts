@@ -1,171 +1,24 @@
-import {createTheme} from '@mui/material/styles';
-
-const weightScale = {
-  'Extra Light': 200,
-  Light: 300,
-  Regular: 400,
-  Medium: 500,
-  'Semi Bold': 600,
-};
+import { createTheme } from '@mantine/core';
 
 export default createTheme({
-  palette: {
-    primary: {
-      light: '#0096881a',
-      main: '#009688',
-    },
-    secondary: {
-      main: '#FFEB3B',
-    },
-    error: {
-      light: '#efbcc4',
-      main: '#d4485e',
-    },
-    background: {
-      default: '#F4F4FF',
-      // grey: 'rgba(0, 0, 0, 0.67)',
-    },
-  },
-  mixins: {
-    toolbar: {
-      minHeight: 64,
-    },
+  primaryColor: 'teal',
+  fontFamily: 'Inter, sans-serif',
+  headings: {
+    h1: { fontSize: '27px', fontWeight: 600, lineHeight: '37.8px' },
+    h2: { fontSize: '25.23px', fontWeight: 600, lineHeight: '35.32px' },
+    h3: { fontSize: '22.42px', fontWeight: 600, lineHeight: '31.39px' },
+    h4: { fontSize: '19px', fontWeight: 500, lineHeight: '26.6px' },
+    h5: { fontSize: '17.72px', fontWeight: 400, lineHeight: '24.8px' },
+    h6: { fontSize: '15.75px', fontWeight: 500, lineHeight: '22.1px' },
   },
   components: {
-    MuiTextField: {
-      defaultProps: {
-        variant: 'standard',
-      },
-    },
-    MuiInput: {
-      styleOverrides: {
-        underline: {
-          '&&&&:hover:before': {
-            borderBottomColor: '#009688',
-          },
+    Text: {
+      styles: (theme) => ({
+        root: {
+          fontSize: '14px',
+          lineHeight: '19.6px',
         },
-      },
-    },
-  },
-  typography: {
-    body1: {
-      fontFamily: 'Inter',
-      fontWeight: weightScale['Regular'],
-      fontSize: '14px',
-      lineHeight: '19.6px',
-      letterSpacing: '0.02em',
-      textDecoration: 'none',
-      textCase: 'undercase',
-    },
-    body2: {
-      fontFamily: 'Inter',
-      fontWeight: weightScale['Regular'],
-      fontSize: '12.44px',
-      lineHeight: '17.42px',
-      letterSpacing: '0.02em',
-      textDecoration: 'none',
-      textCase: 'undercase',
-    },
-    button: {
-      fontFamily: 'Inter',
-      fontWeight: weightScale['Medium'],
-      fontSize: '14px',
-      lineHeight: '19.6px',
-      letterSpacing: '0.02em',
-      textDecoration: 'none',
-      textCase: 'uppercase',
-      textTransform: 'none',
-    },
-    caption: {
-      fontFamily: 'Inter',
-      fontWeight: 'Regular',
-      fontSize: '12.44px',
-      lineHeight: '17.42px',
-      letterSpacing: '0.02em',
-      textDecoration: 'none',
-      textCase: 'undercase',
-    },
-    overline: {
-      fontFamily: 'Inter',
-      fontWeight: weightScale['Regular'],
-      fontSize: '12.44px',
-      lineHeight: '17.42px',
-      letterSpacing: '0.02em',
-      textDecoration: 'none',
-      textTransform: 'none',
-    },
-    subtitle1: {
-      fontFamily: 'Inter',
-      fontWeight: weightScale['Medium'],
-      fontSize: '15.75px',
-      lineHeight: '22.1px',
-      letterSpacing: '0.02em',
-      textDecoration: 'none',
-    },
-    subtitle2: {
-      fontFamily: 'Inter',
-      fontWeight: weightScale['Medium'],
-      fontSize: '14px',
-      lineHeight: '19.6px',
-      letterSpacing: '0.02em',
-      textDecoration: 'none',
-    },
-    h6: {
-      fontFamily: 'Inter',
-      fontWeight: weightScale['Medium'],
-      fontSize: '15.75px',
-      lineHeight: '22.1px',
-      letterSpacing: '0.02em',
-      textDecoration: 'none',
-    },
-    h5: {
-      fontFamily: 'Inter',
-      fontWeight: weightScale['Regular'],
-      fontSize: '17.72px',
-      lineHeight: '24.8px',
-      letterSpacing: '0.02em',
-      textDecoration: 'none',
-      textCase: 'undercase',
-    },
-    h4: {
-      fontFamily: 'Inter',
-      fontWeight: weightScale['Medium'],
-      fontSize: '19px',
-      lineHeight: '26.6px',
-      letterSpacing: '0.02em',
-      textDecoration: 'none',
-    },
-    h3: {
-      fontFamily: 'Inter',
-      fontWeight: weightScale['Semi Bold'],
-      fontSize: '22.42px',
-      lineHeight: '31.39px',
-      letterSpacing: '0.02em',
-      textDecoration: 'none',
-    },
-    h2: {
-      fontFamily: 'Inter',
-      fontWeight: weightScale['Semi Bold'],
-      fontSize: '25.23px',
-      lineHeight: '35.32px',
-      textDecoration: 'none',
-    },
-    h1: {
-      fontFamily: 'Inter',
-      fontWeight: weightScale['Semi Bold'],
-      fontSize: '27px',
-      lineHeight: '37.8px',
-      letterSpacing: '0.02em',
-      textDecoration: 'none',
-    },
-  },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 720,
-      md: 960,
-      lg: 1280,
-      xl: 1680,
+      }),
     },
   },
 });

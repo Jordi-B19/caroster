@@ -1,22 +1,16 @@
 import {PropsWithChildren} from 'react';
-import Box from '@mui/material/Box';
-import {ThemeProvider} from '@mui/material/styles';
-import theme from '../../theme';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { Box } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 
 const MapWrapper = ({children}: PropsWithChildren) => {
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery('(max-width: 768px)');
   return (
-    <ThemeProvider theme={theme}>
-      <Box
-        id="map"
-        width="100%"
-        height={isMobile ? '60vh' : '50vh'}
-        pt={isMobile ? 12 : 0}
-      >
-        {children}
-      </Box>
-    </ThemeProvider>
+    <Box
+      id="map"
+      style={{ width: '100%', height: isMobile ? '60vh' : '50vh', paddingTop: isMobile ? 12 : 0 }}
+    >
+      {children}
+    </Box>
   );
 };
 

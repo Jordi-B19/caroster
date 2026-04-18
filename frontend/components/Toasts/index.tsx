@@ -1,26 +1,26 @@
-import Snackbar from '@mui/material/Snackbar';
+import {useEffect} from 'react';
+import {showNotification} from '@mantine/notifications';
 import useToastStore from '../../stores/useToastStore';
-import theme from '../../theme';
 
 const Toasts = () => {
   const toast = useToastStore(s => s.toast);
   const action = useToastStore(s => s.action);
   const clearToast = useToastStore(s => s.clearToast);
 
-  return (
-    <Snackbar
-      sx={{bottom: theme.spacing(8)}}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left',
-      }}
-      autoHideDuration={6000}
-      open={!!toast}
-      message={toast}
-      onClose={clearToast}
-      action={action}
-    />
-  );
+  useEffect(() => {
+    if (toast) {
+      showNotification({
+        message: toast,
+        action: action ? (
+          <div onClick={clearToast} style={{cursor: 'pointer'}}>
+            {action as React.ReactNode}
+          </div>
+        ) : undefined,
+      });
+    }
+  }, [toast, action, clearToast]);
+
+  return null;
 };
 
 export default Toasts;

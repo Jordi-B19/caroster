@@ -1,6 +1,5 @@
 import {useMemo, useReducer, useState} from 'react';
-import Divider from '@mui/material/Divider';
-import Paper from '@mui/material/Paper';
+import {Divider, Paper} from '../../components/mui-wrappers';
 import HeaderEditing from './HeaderEditing';
 import Header from './Header';
 import RequestTripModal from './RequestTripModal';
@@ -13,7 +12,7 @@ import useEventStore from '../../stores/useEventStore';
 import {PassengerEntity, TravelEntity} from '../../generated/graphql';
 import DrawerPassenger from '../DrawerPassenger';
 import PassengerActions from './PassengerActions';
-import theme from '../../theme';
+// Theme adaptation: Mantine-based theme will be used via MantineProvider; avoid direct MUI theme usage here
 
 interface Props {
   travel: TravelEntity;
@@ -54,12 +53,11 @@ const Travel = (props: Props) => {
 
   return (
     <Paper
-      sx={{
+      style={{
         position: 'relative',
         boxShadow: focused
-          ? `0px 0px 5px 2px ${theme.palette.primary.main}`
+          ? '0px 0px 5px 2px #1976d2'
           : 'none',
-        scrollMarginTop: theme.spacing(2),
       }}
       id={travel.id}
     >

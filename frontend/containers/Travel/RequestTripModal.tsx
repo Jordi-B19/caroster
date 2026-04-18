@@ -1,8 +1,7 @@
 import {useTranslation} from 'next-i18next';
-import {TextField, Typography, Box} from '@mui/material';
+import {Modal, Text, Button, Box, TextInput} from '@mantine/core';
+import {PhoneInput} from '../../components/PhoneInput';
 import {useEffect, useState} from 'react';
-import FormDialog from '../FormDialog';
-import PhoneInput from '../../components/PhoneInput';
 import useProfile from '../../hooks/useProfile';
 import useAddToEvents from '../../hooks/useAddToEvents';
 import useToastStore from '../../stores/useToastStore';
@@ -25,7 +24,7 @@ const RequestTripModal = ({open, toggle, travel}: Props) => {
   const [createPassenger] = useCreatePassengerMutation();
   const [email, setEmail] = useState('');
   useEffect(() => {
-    setEmail(profile?.email);
+    setEmail(profile?.email || '');
   }, [profile?.email]);
   const [phone, setPhone] = useState('');
   const [phoneCountry, setPhoneCountry] = useState('');
@@ -40,7 +39,7 @@ const RequestTripModal = ({open, toggle, travel}: Props) => {
     const hasName = profile.firstName && profile.lastName;
     const userName = profile.firstName + ' ' + profile.lastName;
     try {
-      createPassenger({
+      await createPassenger({
         variables: {
           passenger: {
             user: userId,
@@ -63,15 +62,8 @@ const RequestTripModal = ({open, toggle, travel}: Props) => {
   };
 
   return (
-    <FormDialog
-      open={open}
-      cancel={toggle}
-      onSubmit={onSubmit}
-      title={t('travel.requestTrip.title')}
-      action={t('travel.requestTrip.send')}
-      disabled={emailError || phoneError}
-    >
-      <Typography>{t('travel.requestTrip.description')}</Typography>
+    <Modal opened={open} onClose={toggle} title={t('travel.requestTrip.title')} withCloseButton>
+      <Text style={{ marginBottom: 16 }}>{t('travel.requestTrip.description')}</Text>
       <Box py={2}>
         <PhoneInput
           value={phone}
@@ -83,16 +75,22 @@ const RequestTripModal = ({open, toggle, travel}: Props) => {
           label={t('travel.requestTrip.phone')}
         />
       </Box>
-      <TextField
-        fullWidth
-        error={emailError || phoneError}
+      <TextInput
         label={t('travel.requestTrip.email')}
         value={email}
-        onChange={e => setEmail(e.target.value)}
-        helperText={emailError && t('travel.requestTrip.emailHelper')}
-        variant="standard"
+        onChange={e => setEmail((e.target as HTMLInputElement).value)}
+        error={emailError || phoneError}
+        placeholder={t('travel.requestTrip.email')}
       />
-    </FormDialog>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 12 }}>
+        <Button variant="outline" onClick={toggle}>
+          {t('generic.cancel')}
+        </Button>
+        <Button onClick={onSubmit} disabled={emailError || phoneError}>
+          {t('travel.requestTrip.send')}
+        </Button>
+      </div>
+    </Modal>
   );
 };
 

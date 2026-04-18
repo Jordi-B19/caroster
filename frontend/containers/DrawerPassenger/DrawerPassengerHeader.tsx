@@ -1,62 +1,28 @@
-import {Box, IconButton, Icon, Typography} from '@mui/material';
-import {useTranslation} from 'next-i18next';
+import React from 'react';
+import { Box, Button, Text } from '@mantine/core';
+import { useTranslation } from 'next-i18next';
 
 interface DrawerHeaderProps {
   isMobile: boolean;
   onClose: () => void;
 }
 
-const DrawerHeader = ({isMobile, onClose}: DrawerHeaderProps) => {
-  const {t} = useTranslation();
+const DrawerPassengerHeader: React.FC<DrawerHeaderProps> = ({ isMobile, onClose }) => {
+  const { t } = useTranslation();
 
   return (
-    <Box>
-      {!isMobile && (
-        <Box
-          display="flex"
-          justifyContent="flex-end"
-          alignItems="flex-end"
-          paddingTop={2}
-        >
-          <IconButton
-            sx={{marginRight: 0}}
-            color="inherit"
-            edge="end"
-            aria-label="close"
-            onClick={onClose}
-            id="CloseBtn"
-          >
-            <Icon>close</Icon>
-          </IconButton>
-        </Box>
+    <Box style={{ padding: 8, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      {isMobile ? (
+        <Button variant="light" size="xs" onClick={onClose} aria-label="close">&larr;</Button>
+      ) : (
+        <Box style={{ width: 40 }} />
       )}
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        paddingBottom={2}
-      >
-        <Box display="flex" alignItems="center">
-          {isMobile && (
-            <IconButton
-              sx={{marginRight: 0}}
-              color="inherit"
-              edge="end"
-              aria-label="close"
-              onClick={onClose}
-              id="CloseBtn"
-            >
-              <Icon>chevron_left</Icon>
-            </IconButton>
-          )}
-          <Typography
-            variant="h3"
-            pl={2}
-          >{t`passenger.informations.title`}</Typography>
-        </Box>
-      </Box>
+      <Text style={{ fontWeight: 700, fontSize: 20, flex: 1, textAlign: 'center' }}>
+        {t('passenger.informations.title')}
+      </Text>
+      <Box style={{ width: 40 }} />
     </Box>
   );
 };
 
-export default DrawerHeader;
+export default DrawerPassengerHeader;

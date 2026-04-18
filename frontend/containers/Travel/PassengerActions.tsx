@@ -1,5 +1,6 @@
 import {useState} from 'react';
-import {Box, Icon, IconButton} from '@mui/material';
+import {Box, IconButton} from '../../components/mui-wrappers';
+import {IconTrash} from '@tabler/icons-react';
 import usePermissions from '../../hooks/usePermissions';
 import RemovePassengerModal from './RemovePassengerModal';
 import useActions from './useActions';
@@ -21,28 +22,15 @@ const PassengerActions = (props: Props) => {
 
   return (
     <>
-      <Box display="flex">
-        {canDeletePassenger(passenger) && {
-            id: passenger.id,
-            attributes: {
-              ...passenger.attributes,
-              travel: {data: travel},
-            },
-          } && (
-            <IconButton
-              color="primary"
-              onClick={() => setIsRemovingPassenger(true)}
-              tabIndex={-1}
-            >
-              <Icon>delete_outline</Icon>
-            </IconButton>
-          )}
+      <Box style={{ display: 'flex' }}>
+        {canDeletePassenger(passenger) && (
+          <IconButton color="primary" onClick={() => setIsRemovingPassenger(true)} tabIndex={-1}>
+            <span role="img" aria-label="delete">🗑️</span>
+          </IconButton>
+        )}
         {canSeePassengerDetails(passenger) && (
-          <IconButton
-            color="primary"
-            onClick={() => setFocusPassenger(passenger)}
-          >
-            <Icon>info_outlined</Icon>
+          <IconButton color="primary" onClick={() => setFocusPassenger(passenger)}>
+            <span role="img" aria-label="info">ℹ️</span>
           </IconButton>
         )}
       </Box>
