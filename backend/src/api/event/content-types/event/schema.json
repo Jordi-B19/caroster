@@ -22,17 +22,11 @@
     },
     "lang": {
       "type": "enumeration",
-      "enum": [
-        "fr",
-        "en",
-        "de",
-        "nl",
-        "it"
-      ],
+      "enum": ["fr", "en", "de", "nl", "it"],
       "default": "en"
     },
-    "date": {
-      "type": "date"
+    "dates": {
+      "type": "json"
     },
     "address": {
       "type": "text"
@@ -75,9 +69,7 @@
     },
     "enabled_modules": {
       "type": "customField",
-      "options": [
-        "caroster-plus"
-      ],
+      "options": ["caroster-plus"],
       "customField": "plugin::multi-select.multi-select"
     },
     "administrators": {

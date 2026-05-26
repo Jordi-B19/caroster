@@ -49,7 +49,7 @@ export default {
       const update = _pick(params.data, [
         "name",
         "email",
-        "date",
+        "dates",
         "address",
         "description",
         "latitude",
