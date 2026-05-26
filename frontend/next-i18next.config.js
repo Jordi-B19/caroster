@@ -1,7 +1,6 @@
-/** @type {import('next-i18next').UserConfig} */
-
 const {FALLBACK_LANGUAGE = 'en'} = process.env;
 
+/** @type {import('next-i18next').UserConfig} */
 module.exports = {
   i18n: {
     defaultLocale: FALLBACK_LANGUAGE,
