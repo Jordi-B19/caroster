@@ -8,18 +8,27 @@ export default ({ env }) => ({
   },
   email: {
     config: {
-      provider: "nodemailer",
+      provider: env("EMAIL_PROVIDER", "nodemailer"),
       providerOptions: {
-        host: env("SMTP_HOST", "smtp.sendgrid.net"),
-        port: env("SMTP_PORT", 587),
-        auth: {
-          user: env("SMTP_USERNAME"),
-          pass: env("SMTP_PASSWORD"),
-        },
+        host: env("SMTP_HOST", "smtp.gmail.com"),
+        port: env("SMTP_PORT", 465),
+        secure: true,
+        auth: env("SMTP_CLIENT_ID")
+          ? {
+              type: "OAuth2",
+              user: env("SMTP_USERNAME"),
+              serviceClient: env("SMTP_CLIENT_ID"),
+              privateKey: env("SMTP_PRIVATE_KEY")?.replace(/\\n/g, "\n"),
+            }
+          : {
+              user: env("SMTP_USERNAME"),
+              pass: env("SMTP_PASSWORD"),
+            },
+        // ... any custom nodemailer options
       },
       settings: {
-        defaultFrom: "caroster@caroster.io",
-        defaultReplyTo: "caroster@caroster.io",
+        defaultFrom: `EcoNature <${env("DEFAULT_EMAIL")}>`,
+        defaultReplyTo: `EcoNature <${env("DEFAULT_EMAIL")}>`,
       },
     },
   },
