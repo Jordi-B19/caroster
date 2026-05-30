@@ -19,12 +19,12 @@ export default {
     }
   },
   async afterCreate({ result }) {
-    if (!result.isReturnEvent && !result.unpaid)
-      await strapi
-        .service("api::email.email")
-        .sendEmailNotif(result.email, "EventCreated", result.lang, {
-          event: result,
-        });
+    // if (!result.isReturnEvent && !result.unpaid)
+    //   await strapi
+    //     .service("api::email.email")
+    //     .sendEmailNotif(result.email, "EventCreated", result.lang, {
+    //       event: result,
+    //     });
   },
 
   async beforeUpdate(event) {
