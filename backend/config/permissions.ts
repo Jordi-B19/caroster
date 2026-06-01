@@ -1,6 +1,7 @@
 const publicPerms = [
   "api::event.event.create",
   "api::event.event.findOne",
+  "api::event.event.update",
   "api::page.page.find",
   "api::page.page.findOne",
   "api::module.module.find",
