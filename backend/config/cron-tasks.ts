@@ -6,51 +6,51 @@ export default {
    * Send event recap to creators
    * Everyday at 08:00
    */
-  "0 8 * * *": async ({ strapi }) => {
-    const events = await strapi.entityService.findMany("api::event.event", {
-      filters: {
-        date: {
-          $gte: DateTime.now().toISODate(),
-        },
-        isReturnEvent: false,
-      },
-      populate: { linkedEvent: { populate: ["travels", "passengers"] } },
-      limit: -1,
-    });
+  // "0 8 * * *": async ({ strapi }) => {
+  //   const events = await strapi.entityService.findMany("api::event.event", {
+  //     filters: {
+  //       date: {
+  //         $gte: DateTime.now().toISODate(),
+  //       },
+  //       isReturnEvent: false,
+  //     },
+  //     populate: { linkedEvent: { populate: ["travels", "passengers"] } },
+  //     limit: -1,
+  //   });
 
-    await pMap(events, strapi.service("api::event.event").sendDailyRecap, {
-      concurrency: 5,
-    });
-  },
+  //   await pMap(events, strapi.service("api::event.event").sendDailyRecap, {
+  //     concurrency: 5,
+  //   });
+  // },
   /**
    * Send event recap when it has ended
    * Only to events with a provided 'date' field
    * Everyday at 08:30
    */
-  "30 8 * * *": async ({ strapi }) => {
-    const events = await strapi.entityService.findMany("api::event.event", {
-      filters: {
-        date: {
-          $eq: DateTime.now().minus({ day: 1 }).toISODate(),
-        },
-        isReturnEvent: false,
-      },
-      populate: {
-        linkedEvents: {
-          populate: {
-            travels: true,
-            passengers: { populate: { passengers: true } },
-          },
-        },
-        travels: true,
-        passengers: { populate: { passengers: true } },
-      },
-      limit: -1,
-    });
-    await pMap(events, strapi.service("api::event.event").sendEndRecap, {
-      concurrency: 5,
-    });
-  },
+  // "30 8 * * *": async ({ strapi }) => {
+  //   const events = await strapi.entityService.findMany("api::event.event", {
+  //     filters: {
+  //       date: {
+  //         $eq: DateTime.now().minus({ day: 1 }).toISODate(),
+  //       },
+  //       isReturnEvent: false,
+  //     },
+  //     populate: {
+  //       linkedEvents: {
+  //         populate: {
+  //           travels: true,
+  //           passengers: { populate: { passengers: true } },
+  //         },
+  //       },
+  //       travels: true,
+  //       passengers: { populate: { passengers: true } },
+  //     },
+  //     limit: -1,
+  //   });
+  //   await pMap(events, strapi.service("api::event.event").sendEndRecap, {
+  //     concurrency: 5,
+  //   });
+  // },
   /**
    * Clean unpaid events
    * Every sunday at 02:00
