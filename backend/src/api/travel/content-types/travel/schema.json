@@ -26,6 +26,9 @@
       "default": 4,
       "min": 0
     },
+    "email": {
+      "type": "string"
+    },
     "phone_number": {
       "type": "string"
     },

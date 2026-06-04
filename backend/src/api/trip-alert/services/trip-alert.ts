@@ -8,15 +8,16 @@ import {
 export default factories.createCoreService(
   "api::trip-alert.trip-alert",
   ({ strapi }) => ({
-    async sendTripAlerts(eventId: string, travel) {
+    async sendTripAlerts(eventId: string, travel, date: string) {
       const eventTripAlerts = await strapi.entityService.findMany(
         "api::trip-alert.trip-alert",
         {
           filters: {
+            date,
             enabled: true,
             event: { id: eventId },
           },
-          populate: ["user"],
+          populate: ["user", "event"],
         }
       );
       const filteredTripAlerts = eventTripAlerts.filter((tripAlert) => {
@@ -51,14 +52,22 @@ export default factories.createCoreService(
         strapi.log.debug(
           `Create trip alert notification for user ${tripAlert.user.id}`
         );
-        strapi.entityService.create("api::notification.notification", {
-          data: {
-            type: "NewTripAlert",
-            event: eventId,
-            user: tripAlert.user.id,
-            payload: { travel, vehicleName },
-          },
-        });
+        tripAlert.user
+          ? strapi.entityService.create("api::notification.notification", {
+              data: {
+                type: "NewTripAlert",
+                event: eventId,
+                user: tripAlert.user.id,
+                payload: { travel, vehicleName },
+              },
+            })
+          : strapi
+              .service("api::email.email")
+              .sendEmailNotif(
+                tripAlert.email,
+                "NewTripAlert",
+                tripAlert.event.lang || "en"
+              );
       });
     },
   })

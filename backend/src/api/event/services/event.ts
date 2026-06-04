@@ -4,9 +4,10 @@ import { factories } from "@strapi/strapi";
 export default factories.createCoreService(
   "api::event.event",
   ({ strapi }) => ({
-    getWaitingPassengers: async (event) => {
+    getWaitingPassengers: async (event, date: string) => {
       return strapi.entityService.findMany("api::passenger.passenger", {
         filters: {
+          date,
           event: { id: event.id },
           travel: {
             id: {
@@ -17,11 +18,12 @@ export default factories.createCoreService(
         populate: ["travel", "user"],
       });
     },
-    getTripAlerts: async (event) => {
+    getTripAlerts: async (event, date: string) => {
       const tripAlerts = await strapi.entityService.findMany(
         "api::trip-alert.trip-alert",
         {
           filters: {
+            date,
             event: { id: event.id },
             user: { $not: null },
             enabled: true,
@@ -33,6 +35,7 @@ export default factories.createCoreService(
         "api::passenger.passenger",
         {
           filters: {
+            date,
             event: { id: event.id },
             travel: {
               id: {
@@ -44,10 +47,11 @@ export default factories.createCoreService(
         }
       );
       const usersInTravel = eventPassengers
-        .map((passenger) => passenger.user?.id)
+        .map((passenger) => passenger.user?.email || passenger.email)
         .filter(Boolean);
       return tripAlerts.filter(
-        (tripAlert) => !usersInTravel.includes(tripAlert.user.id)
+        (tripAlert) =>
+          !usersInTravel.includes(tripAlert.user?.email || tripAlert.email)
       );
     },
     sendDailyRecap: async (event) => {

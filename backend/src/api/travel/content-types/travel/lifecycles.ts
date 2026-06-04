@@ -4,6 +4,7 @@ import pMap from "p-map";
 export default {
   async afterCreate({ result, params }) {
     const eventId = params?.data?.event;
+    const date = params?.data?.departureDate;
 
     const event = await strapi.entityService.findOne(
       "api::event.event",
@@ -18,8 +19,8 @@ export default {
     if (isEventCarosterPlus)
       strapi
         .service("api::trip-alert.trip-alert")
-        .sendTripAlerts(eventId, result);
-    else sendEmailsToWaitingPassengers(result, eventId);
+        .sendTripAlerts(eventId, result, date);
+    else sendEmailsToWaitingPassengers(result, eventId, date);
   },
 
   async beforeUpdate(event) {
@@ -69,7 +70,7 @@ export default {
     // If Caroster Plus, send notification to passengers
     if (isEventCarosterPlus && hasPassengers) {
       const users = travel.passengers
-        .map((passenger) => passenger.user)
+        .map((passenger) => passenger.user || passenger.email)
         .filter(Boolean);
 
       const vehicleName =
@@ -79,15 +80,19 @@ export default {
       await pMap(
         users,
         async (user) =>
-          strapi.entityService.create("api::notification.notification", {
-            data: {
-              type: "DeletedTrip",
-              event: travel.event.id,
-              user: user.id,
-              // @ts-expect-error
-              payload: { travel, vehicleName },
-            },
-          }),
+          typeof user === "string"
+            ? strapi
+                .service("api::email.email")
+                .sendEmailNotif(user, "DeletedTrip", travel.event.lang || "en")
+            : strapi.entityService.create("api::notification.notification", {
+                data: {
+                  type: "DeletedTrip",
+                  event: travel.event.id,
+                  user: user.id,
+                  // @ts-expect-error
+                  payload: { travel, vehicleName },
+                },
+              }),
         { concurrency: 5 }
       );
     }
@@ -104,13 +109,17 @@ export default {
   },
 };
 
-const sendEmailsToWaitingPassengers = async (travel, eventId: string) => {
+const sendEmailsToWaitingPassengers = async (
+  travel,
+  eventId: string,
+  date: string
+) => {
   const event = await strapi.db.query("api::event.event").findOne({
     where: { id: eventId },
   });
   const eventWaitingPassengers = await strapi
     .service("api::event.event")
-    .getWaitingPassengers(event);
+    .getWaitingPassengers(event, date);
 
   const vehicleName =
     travel.firstname && travel.lastname

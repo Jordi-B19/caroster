@@ -389,7 +389,7 @@ export interface ApiEventEvent extends Schema.CollectionType {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
-    date: Attribute.Date;
+    dates: Attribute.JSON;
     description: Attribute.Text &
       Attribute.SetMinMaxLength<{
         maxLength: 250;
@@ -638,6 +638,7 @@ export interface ApiPassengerPassenger extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
+    date: Attribute.Date;
     email: Attribute.Email;
     event: Attribute.Relation<
       'api::passenger.passenger',
@@ -786,6 +787,7 @@ export interface ApiTravelTravel extends Schema.CollectionType {
     departureDate: Attribute.Date;
     departureTime: Attribute.String;
     details: Attribute.Text;
+    email: Attribute.String;
     event: Attribute.Relation<
       'api::travel.travel',
       'manyToOne',
@@ -847,6 +849,8 @@ export interface ApiTripAlertTripAlert extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
+    date: Attribute.Date;
+    email: Attribute.String;
     enabled: Attribute.Boolean & Attribute.DefaultTo<true>;
     event: Attribute.Relation<
       'api::trip-alert.trip-alert',
