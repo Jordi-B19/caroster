@@ -68,7 +68,7 @@ export default {
     const isEventCarosterPlus = enabledModules?.includes("caroster-plus");
 
     // If Caroster Plus, send notification to passengers
-    if (isEventCarosterPlus && hasPassengers) {
+    if (hasPassengers) {
       const users = travel.passengers
         .map((passenger) => passenger.user || passenger.email)
         .filter(Boolean);
@@ -90,14 +90,12 @@ export default {
                   event: travel.event.id,
                   user: user.id,
                   // @ts-expect-error
-                  payload: { travel, vehicleName },
+                  payload: { travel, vehicleName, event: travel.event },
                 },
               }),
         { concurrency: 5 }
       );
-    }
-    // Move travel's passengers to event's waiting list
-    else if (hasPassengers) {
+      // Move travel's passengers to event's waiting list
       const { passengers = [] } = travel;
       await Promise.all(
         passengers.map(movePassengerToWaitingList(travel.event.id))

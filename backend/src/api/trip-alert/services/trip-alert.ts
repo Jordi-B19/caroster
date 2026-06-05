@@ -52,22 +52,24 @@ export default factories.createCoreService(
         strapi.log.debug(
           `Create trip alert notification for user ${tripAlert.user.id}`
         );
-        tripAlert.user
-          ? strapi.entityService.create("api::notification.notification", {
-              data: {
-                type: "NewTripAlert",
-                event: eventId,
-                user: tripAlert.user.id,
-                payload: { travel, vehicleName },
-              },
-            })
-          : strapi
-              .service("api::email.email")
-              .sendEmailNotif(
-                tripAlert.email,
-                "NewTripAlert",
-                tripAlert.event.lang || "en"
-              );
+        if (tripAlert.user)
+          strapi.entityService.create("api::notification.notification", {
+            data: {
+              type: "NewTripAlert",
+              event: eventId,
+              user: tripAlert.user.id,
+              payload: { travel, vehicleName },
+            },
+          });
+        else if (tripAlert.email)
+          strapi
+            .service("api::email.email")
+            .sendEmailNotif(
+              tripAlert.email,
+              "NewTripAlert",
+              tripAlert.event.lang || "en",
+              { travel, vehicleName, event: tripAlert.event }
+            );
       });
     },
   })

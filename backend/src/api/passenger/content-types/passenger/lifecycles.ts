@@ -11,23 +11,25 @@ export default {
           populate: ["user", "event"],
         }
       );
+      params.data.date = travel?.departureDate;
       if (travel)
-        travel.user
-          ? strapi.entityService.create("api::notification.notification", {
-              data: {
-                type: "NewPassengerInYourTrip",
-                event: params.data.event,
-                user: travel.user?.id,
-              },
-            })
-          : strapi
-              .service("api::email.email")
-              .sendEmailNotif(
-                travel.email,
-                "NewPassengerInYourTrip",
-                travel.event.lang || "en"
-              );
-      if (travel) params.data.date = travel.departureDate;
+        if (travel.user)
+          strapi.entityService.create("api::notification.notification", {
+            data: {
+              type: "NewPassengerInYourTrip",
+              event: params.data.event,
+              user: travel.user?.id,
+            },
+          });
+        else if (travel.email)
+          strapi
+            .service("api::email.email")
+            .sendEmailNotif(
+              travel.email,
+              "NewPassengerInYourTrip",
+              travel.event.lang || "en",
+              { event: travel.event }
+            );
       if (travel && state.isAdmin) {
         const vehicleName =
           travel.firstname && travel.lastname
@@ -49,7 +51,8 @@ export default {
             .sendEmailNotif(
               params.data.email,
               "AssignedByAdmin",
-              travel.event.lang || "en"
+              travel.event.lang || "en",
+              { travel, vehicleName, event: travel.event }
             );
       }
     }

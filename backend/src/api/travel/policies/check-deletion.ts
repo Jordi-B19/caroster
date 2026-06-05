@@ -26,14 +26,23 @@ export default async (policyContext, config, { strapi }) => {
         travel.firstname && travel.lastname
           ? `${travel.firstname} ${travel.lastname[0]}.`
           : travel.vehicleName;
-      await strapi.entityService.create("api::notification.notification", {
-        data: {
-          type: "DeletedYourTrip",
-          event,
-          user: travel.user,
-          payload: { travel, vehicleName },
-        },
-      });
+      if (travel.user)
+        await strapi.entityService.create("api::notification.notification", {
+          data: {
+            type: "DeletedYourTrip",
+            event,
+            user: travel.user,
+            payload: { travel, vehicleName },
+          },
+        });
+      else if (travel.email)
+        await strapi
+          .service("api::email.email")
+          .sendEmailNotif(travel.email, "DeletedYourTrip", event.lang, {
+            travel,
+            vehicleName,
+            event,
+          });
       return true;
     } else if (travel.user?.email === user.email) return true;
     else return false;

@@ -47,12 +47,14 @@ const createPassenger = {
     // If event is Caroster Plus, send notification to user
     const enabledModules = createdPassenger.event?.enabled_modules as string[];
     const isCarosterPlus = enabledModules?.includes("caroster-plus");
-    if (isCarosterPlus && createdPassenger.user) {
+    if (createdPassenger.user || createdPassenger.email) {
       const travel = createdPassenger.travel;
       const driver = travel.user;
       const date = travel.departureDate
         ? moment(travel.departureDate)
-            .locale(createdPassenger.user.lang || "en")
+            .locale(
+              createdPassenger.user?.lang || createdPassenger.event.lang || "en"
+            )
             .format("dddd LL")
         : "";
       const datetime = `${date} ${travel.departureTime || ""}`;
@@ -61,15 +63,31 @@ const createPassenger = {
           travel.firstname && travel.lastname
             ? `${travel.firstname} ${travel.lastname[0]}.`
             : travel.vehicleName;
-        await strapi.entityService.create("api::notification.notification", {
-          data: {
-            type: "ContactTripCreator",
-            event: createdPassenger.event.id,
-            user: createdPassenger.user.id,
-            // @ts-expect-error
-            payload: { travel, driver, datetime, vehicleName },
-          },
-        });
+        if (createdPassenger.user)
+          await strapi.entityService.create("api::notification.notification", {
+            data: {
+              type: "ContactTripCreator",
+              event: createdPassenger.event.id,
+              user: createdPassenger.user.id,
+              // @ts-expect-error
+              payload: { travel, driver, datetime, vehicleName },
+            },
+          });
+        else if (createdPassenger.email)
+          await strapi
+            .service("api::email.email")
+            .sendEmailNotif(
+              createdPassenger.email,
+              "ContactTripCreator",
+              createdPassenger.event.lang || "en",
+              {
+                event: createdPassenger.event,
+                travel,
+                driver,
+                datetime,
+                vehicleName,
+              }
+            );
       } catch (error) {
         console.error(error);
       }
