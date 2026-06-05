@@ -17,7 +17,7 @@ export const getHTML = ({ htmlContent, htmlFooter, carosterLink }) => `
         <tbody>
           <tr style="width:100%">
             <td>
-              <div
+              <!-- <div
                 style="padding:16px 24px 16px 24px;background-color:#FFEB3B;text-align:center"
               >
                 <a
@@ -30,11 +30,11 @@ export const getHTML = ({ htmlContent, htmlFooter, carosterLink }) => `
                     height="32"
                     style="height:32px;outline:none;border:none;text-decoration:none;vertical-align:middle;display:inline-block;max-width:100%"
                 /></a>
-              </div>
+              </div> -->
               <div style="font-weight:normal;padding:16px 24px 16px 24px">
                 ${htmlContent}
               </div>
-              <div style="background-color:#E5E5E5;padding:16px 8px 16px 8px">
+              <!-- <div style="background-color:#E5E5E5;padding:16px 8px 16px 8px">
                 <div
                   style="font-size:14px;font-weight:normal;padding:4px 24px 4px 24px"
                 >
@@ -65,7 +65,7 @@ export const getHTML = ({ htmlContent, htmlFooter, carosterLink }) => `
                     ></a
                   >
                 </div>
-              </div>
+              </div> -->
             </td>
           </tr>
         </tbody>
