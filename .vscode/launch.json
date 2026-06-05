@@ -1,0 +1,32 @@
+{
+  // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
+  // Pointez pour afficher la description des attributs existants.
+  // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["workspace", "@caroster/backend", "run", "develop"],
+      "skipFiles": ["<node_internals>/**"],
+      "outputCapture": "std"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program with Watch Admin",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": [
+        "workspace",
+        "@caroster/backend",
+        "run",
+        "develop",
+        "--watch-admin"
+      ],
+      "skipFiles": ["<node_internals>/**"],
+      "outputCapture": "std"
+    }
+  ]
+}
