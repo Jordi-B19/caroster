@@ -79,11 +79,11 @@ export default () => ({
 
       const subject = _.template(notif.title)({
         ...variables,
-        host: strapi.config.server.url,
+        host: strapi.config.server.siteUrl,
       });
       const mdContent = _.template(notif.content)({
         ...variables,
-        host: strapi.config.server.url,
+        host: strapi.config.server.siteUrl,
       });
       const mdFooter = matchingLocale.template.footer;
       const carosterLink = matchingLocale.template.carosterLink;
