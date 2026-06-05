@@ -1,6 +1,16 @@
 export default {
   async beforeCreate(event) {
     event.state.isAdmin = event.params.data.isAdmin;
+    if (event.params.data.travel) {
+      const travel = await strapi.entityService.findOne(
+        "api::travel.travel",
+        event.params.data.travel,
+        {
+          populate: ["user", "event"],
+        }
+      );
+      event.params.data.date = travel?.departureDate;
+    }
   },
   async afterCreate({ params, state }) {
     if (params.data.travel) {
@@ -11,7 +21,6 @@ export default {
           populate: ["user", "event"],
         }
       );
-      params.data.date = travel?.departureDate;
       if (travel)
         if (travel.user)
           strapi.entityService.create("api::notification.notification", {

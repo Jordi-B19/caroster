@@ -76,8 +76,10 @@ export default ({ nexus, strapi }) => ({
           const event = await strapi.db
             .query("api::event.event")
             .findOne({ where: { uuid } });
-          strapi.log.warn(`No event found for uuid ${uuid}`);
-          if (!event) throw new Error("No matching event");
+          if (!event) {
+            strapi.log.warn(`No event found for uuid ${uuid}`);
+            throw new Error("No matching event");
+          }
           const { toEntityResponse } = strapi
             .plugin("graphql")
             .service("format").returnTypes;

@@ -49,7 +49,7 @@ const createPassenger = {
     const isCarosterPlus = enabledModules?.includes("caroster-plus");
     if (createdPassenger.user || createdPassenger.email) {
       const travel = createdPassenger.travel;
-      const driver = travel.user;
+      const driver = travel.user || { email: travel.email };
       const date = travel.departureDate
         ? moment(travel.departureDate)
             .locale(

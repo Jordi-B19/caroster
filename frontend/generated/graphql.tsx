@@ -178,6 +178,16 @@ export type EventTravelsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
+
+export type EventTripAlertsArgs = {
+  date?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type EventWaitingPassengersArgs = {
+  date?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type EventEntity = {
   __typename?: 'EventEntity';
   attributes?: Maybe<Event>;
