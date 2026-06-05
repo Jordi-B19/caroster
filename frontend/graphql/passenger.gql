@@ -6,6 +6,7 @@ fragment PassengerFields on PassengerEntity {
     phone
     phoneCountry
     email
+    date
     user {
       data {
         id
