@@ -13,6 +13,7 @@ fragment TravelFields on TravelEntity {
     phone_number
     phoneCountry
     seats
+    email
     passengers {
       data {
         id
@@ -21,6 +22,7 @@ fragment TravelFields on TravelEntity {
           location
           phone
           phoneCountry
+          email
           user {
             data {
               id

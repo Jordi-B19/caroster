@@ -19,7 +19,7 @@ fragment UserFields on UsersPermissionsUser {
       attributes {
         uuid
         name
-        date
+        dates
         address
         enabled_modules
       }
