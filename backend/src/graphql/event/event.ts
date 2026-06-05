@@ -5,9 +5,15 @@ export default ({ nexus, strapi }) => ({
       definition(t) {
         t.field("waitingPassengers", {
           type: "PassengerRelationResponseCollection",
+          args: {
+            date: "String",
+          },
         });
         t.field("tripAlerts", {
           type: "TripAlertEntityResponseCollection",
+          args: {
+            date: "String",
+          },
         });
       },
     }),
@@ -40,7 +46,7 @@ export default ({ nexus, strapi }) => ({
       waitingPassengers: async (root, args) => {
         const waitingPassengers = await strapi
           .service("api::event.event")
-          .getWaitingPassengers(root);
+          .getWaitingPassengers(root, args.date || undefined);
         const { toEntityResponseCollection } = strapi
           .plugin("graphql")
           .service("format").returnTypes;
@@ -52,7 +58,7 @@ export default ({ nexus, strapi }) => ({
       tripAlerts: async (root, args) => {
         const tripAlerts = await strapi
           .service("api::event.event")
-          .getTripAlerts(root);
+          .getTripAlerts(root, args.date || undefined);
         const { toEntityResponseCollection } = strapi
           .plugin("graphql")
           .service("format").returnTypes;
