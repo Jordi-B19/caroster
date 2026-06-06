@@ -17,55 +17,9 @@ export const getHTML = ({ htmlContent, htmlFooter, carosterLink }) => `
         <tbody>
           <tr style="width:100%">
             <td>
-              <!-- <div
-                style="padding:16px 24px 16px 24px;background-color:#FFEB3B;text-align:center"
-              >
-                <a
-                  href="${carosterLink}"
-                  style="text-decoration:none"
-                  target="_blank"
-                  ><img
-                    alt="Caroster link"
-                    src="https://app.caroster.io/uploads/Caroster_logo1_cddd3057fc.png?updated_at=2022-09-12T08:11:11.735Z"
-                    height="32"
-                    style="height:32px;outline:none;border:none;text-decoration:none;vertical-align:middle;display:inline-block;max-width:100%"
-                /></a>
-              </div> -->
               <div style="font-weight:normal;padding:16px 24px 16px 24px">
                 ${htmlContent}
               </div>
-              <!-- <div style="background-color:#E5E5E5;padding:16px 8px 16px 8px">
-                <div
-                  style="font-size:14px;font-weight:normal;padding:4px 24px 4px 24px"
-                >
-                  ${htmlFooter}
-                </div>
-                <div style="padding:0px 24px 0px 24px">👉
-                  <a
-                    href="https://opencollective.com/caroster"
-                    style="color:#171717;font-size:14px;border-radius:64px;display:inline-block;padding:8px 12px 8px 4px;font-weight:bold;"
-                    target="_blank"
-                    ><span
-                      ><!--[if mso
-                        ]><i
-                          style="letter-spacing: 12px;mso-font-width:-100%;mso-text-raise:18"
-                          hidden
-                          >&nbsp;</i
-                        ><!
-                      [endif]--></span
-                    ><span>Open collective</span
-                    ><span
-                      ><!--[if mso
-                        ]><i
-                          style="letter-spacing: 12px;mso-font-width:-100%"
-                          hidden
-                          >&nbsp;</i
-                        ><!
-                      [endif]--></span
-                    ></a
-                  >
-                </div>
-              </div> -->
             </td>
           </tr>
         </tbody>
