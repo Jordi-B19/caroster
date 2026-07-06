@@ -33,6 +33,7 @@
     "@strapi/plugin-sentry": "^4.26.1",
     "@strapi/plugin-users-permissions": "4.26.1",
     "@strapi/provider-email-nodemailer": "^4.26.1",
+    "@strapi/provider-email-console": "file:src/providers/strapi-provider-email-console",
     "@strapi/strapi": "4.26.1",
     "marked": "^12.0.2",
     "moment": "^2.30.1",
