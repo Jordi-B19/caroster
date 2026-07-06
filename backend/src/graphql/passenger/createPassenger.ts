@@ -5,16 +5,36 @@ const createPassenger = {
   description: "Create a passenger",
   async resolve(_root, args) {
     const { data: passengerInput } = args;
-    const { user: userId, event: eventId } = passengerInput;
+    const {
+      user: userId,
+      event: eventId,
+      email,
+      travel: travelId,
+    } = passengerInput;
 
     //Avoid duplicity when the connected users add themself
     if (userId) {
+      const filters = [
+        userId && { user: { id: userId } },
+        email && { email },
+      ].filter(Boolean);
+      let travel;
+      let date = passengerInput.date;
+      if (travelId) {
+        travel = await strapi.entityService.findOne(
+          "api::travel.travel",
+          travelId
+        );
+        if (!travel) throw new Error("Travel not found");
+        date = travel.departureDate;
+      }
       const userPassengersInEvent = (await strapi.entityService.findMany(
         "api::passenger.passenger",
         {
           filters: {
             event: { id: eventId },
-            user: { id: userId },
+            $or: filters,
+            date,
           },
         }
       )) as { id: string }[];
@@ -44,11 +64,8 @@ const createPassenger = {
       }
     );
 
-    // If event is Caroster Plus, send notification to user
-    const enabledModules = createdPassenger.event?.enabled_modules as string[];
-    const isCarosterPlus = enabledModules?.includes("caroster-plus");
-    if (createdPassenger.user || createdPassenger.email) {
-      const travel = createdPassenger.travel;
+    const travel = createdPassenger.travel;
+    if ((createdPassenger.user || createdPassenger.email) && travel) {
       const driver = travel.user || { email: travel.email };
       const date = travel.departureDate
         ? moment(travel.departureDate)

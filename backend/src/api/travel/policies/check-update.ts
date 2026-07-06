@@ -18,15 +18,13 @@ export default async (policyContext, _config, { strapi }) => {
   if (!!eventId && eventId !== event.id)
     throw new errors.UnauthorizedError("Can't change travel linked event");
 
-  if (event.enabled_modules?.includes("caroster-plus")) {
-    const user = policyContext.state.user;
-    if (!user) throw new errors.ForbiddenError();
+  const user = policyContext.state.user;
+  if (!user) throw new errors.ForbiddenError();
 
-    const admins = event.administrators?.split(/, ?/) || [];
-    const isAdmin = [...admins, event.email].includes(user.email);
+  const admins = event.administrators?.split(/, ?/) || [];
+  const isAdmin = [...admins, event.email].includes(user.email);
 
-    if (isAdmin) return true;
-    else if (travel.user?.email === user.email) return true;
-    else return false;
-  }
+  if (isAdmin) return true;
+  else if (travel.user?.email === user.email) return true;
+  else return false;
 };

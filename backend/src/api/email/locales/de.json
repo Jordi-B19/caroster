@@ -14,51 +14,51 @@
     },
     "NewTrip": {
       "title": "<%= event.name %> - Eine neue Fahrt ist verfügbar",
-      "content": "## Neue Fahrt ist verfügbar für \"<%= event.name %>\"\n\n**Fahrt: <%= vehicleName %>**\nAnzahl der Sitzplätze: <%= travel.seats %>\nAbfahrtsort: <%= travel.meeting %>\nInformationen: <%= travel.details %>.\n\n[Meinen Sitzplatz buchen](<%= host %>/e/<%= event.uuid %>).\n\nSie erhalten diese E-Mail, weil Sie auf der Warteliste für einen Platz in einer Fahrgemeinschaft für diese Veranstaltung stehen."
+      "content": "## Neue Fahrt ist verfügbar für \"<%= event.name %>\"\n\n**Fahrt: <%= vehicleName %>**\nAnzahl der Sitzplätze: <%= travel.seats %>\nAbfahrtsort: <%= travel.meeting %>\nInformationen: <%= travel.details %>.\n\n[Meinen Sitzplatz buchen](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>).\n\nSie erhalten diese E-Mail, weil Sie auf der Warteliste für einen Platz in einer Fahrgemeinschaft für diese Veranstaltung stehen."
     },
     "NewTripAlert": {
       "title": "<%= event.name %> - Eine neue Fahrt ist verfügbar",
-      "content": "## Eine neue Fahrt für \"<%= event.name %>\" ist verfügbar\n\n**Fahrt: <%= vehicleName %>**\nAnzahl der Sitze: <%= travel.seats %>\nAbfahrtsort: <%= travel.meeting %>\nInformationen: <%= travel.details %>.\n\n[Meinen Sitz buchen](<%= host %>/e/<%= event.uuid %>).\n\nSie bekommen diese Email weil Sie Benachrichtigungen zu dieser Veranstaltung aktiviert haben."
+      "content": "## Eine neue Fahrt für \"<%= event.name %>\" ist verfügbar\n\n**Fahrt: <%= vehicleName %>**\nAnzahl der Sitze: <%= travel.seats %>\nAbfahrtsort: <%= travel.meeting %>\nInformationen: <%= travel.details %>.\n\n[Meinen Sitz buchen](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>).\n\nSie bekommen diese Email weil Sie Benachrichtigungen zu dieser Veranstaltung aktiviert haben."
     },
     "DeletedTrip": {
       "title": "<%= event.name %> - Trip entfernt",
-      "content": "Die Fahrt '<%= vehicleName %>', die Sie abonniert haben, wurde entfernt. Sie können versuchen, [hier] eine andere verfügbare Fahrt für Sie zu finden (<%= host %>/e/<%= event.uuid %>)."
+      "content": "Die Fahrt '<%= vehicleName %>', die Sie abonniert haben, wurde entfernt. Sie können versuchen, [hier] eine andere verfügbare Fahrt für Sie zu finden (<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>)."
     },
     "EventRecap": {
-      "content": "## Es gibt etwas Neues in Ihrem Ereignis „<%= event.name %>“\n\n⏳ Anzahl der Fahrgäste, die einen Sitzplatz suchen : <%= waitingListCount %>\n🚗 Anzahl der Fahrten : <%= travelsCount %>\n🆕 Anzahl der neuen Fahrten: <%= newTravelsCount %>\n\nLink zu Ihrem Caroster: <%= host %>/e/<%= event.uuid %>\n\nSie erhalten diese E-Mail, weil Sie der Schöpfer dieses Ereignisses sind.",
+      "content": "## Es gibt etwas Neues in Ihrem Ereignis „<%= event.name %>“\n\n⏳ Anzahl der Fahrgäste, die einen Sitzplatz suchen : <%= waitingListCount %>\n🚗 Anzahl der Fahrten : <%= travelsCount %>\n🆕 Anzahl der neuen Fahrten: <%= newTravelsCount %>\n\nLink zu Ihrem Caroster: <%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>\n\nSie erhalten diese E-Mail, weil Sie der Schöpfer dieses Ereignisses sind.",
       "title": "<%= event.name %> - Etwas ist neu bei Ihrem Eregnis"
     },
     "DeletedYourTrip": {
       "title": "<%= event.name %> - Dein Fahrt wurde entfernt",
-      "content": "Deine Fahrt <%= vehicleName %> wurde entfernt von einem Administrator von [<%= event.name %>](<%= host %>/e/<%= event.uuid %>)."
+      "content": "Deine Fahrt <%= vehicleName %> wurde entfernt von einem Administrator von [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>)."
     },
     "DeletedFromTrip": {
       "title": "<%= event.name %> - Du wurdest entfernt von einer Fahrt",
-      "content": "Du wurdest entfernt von der Fahrt '<%= vehicleName %>' für [<%= event.name %>](<%= host %>/e/<%= event.uuid %>)."
+      "content": "Du wurdest entfernt von der Fahrt '<%= vehicleName %>' für [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>)."
     },
     "NewPassengerInYourTrip": {
       "title": "<%= event.name %> - Ein Passagier wurde zur deiner Fahrt hinzugefügt",
-      "content": "Ein Passagier wurde zu Ihrer Fahrt am [<%= event.name %>](<%= host %>/e/<%= event.uuid %>) hinzugefügt"
+      "content": "Ein Passagier wurde zu Ihrer Fahrt am [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>) hinzugefügt"
     },
     "AddedAsAdmin": {
       "title": "Sie wurden als Administrator zu einem Ereignis befördert",
-      "content": "Sie wurden als Administrator für [<%= event.name %>](<%= host %>/e/<%= event.uuid %>) befördert."
+      "content": "Sie wurden als Administrator für [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>) befördert."
     },
     "EventCreated": {
       "title": "<%= event.name %> - Ihr Caroster ist bereit !",
-      "content": "## Hurra, Ihr Caroster „<%= event.name %>“ ist fertig!\n\nFang an zu organisieren:\n\n🚗 Fahrten hinzufügen\n\n💬 Laden Sie Ihre Teilnehmer zu Fahrgemeinschaften ein, indem Sie Ihren Caroster-Link teilen.\n\nLink teilen:\n<%= host %>/e/<%= event.uuid %>"
+      "content": "## Hurra, Ihr Caroster „<%= event.name %>“ ist fertig!\n\nFang an zu organisieren:\n\n🚗 Fahrten hinzufügen\n\n💬 Laden Sie Ihre Teilnehmer zu Fahrgemeinschaften ein, indem Sie Ihren Caroster-Link teilen.\n\nLink teilen:\n<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>"
     },
     "EventEnded": {
       "title": "<%= event.name %> - Ihr Ereignis ist vorbei!",
-      "content": "## „<%= event.name %>“ ist vorbei !\n\n👏 Anzahl der Passagiere : <%= event.passengers.length %>\n🚗 Anzahl der durchgeführten Fahrten : <%= event.travels.length %>\n\nLink zu Ihrem Caroster: <%= host %>/e/<%= event.uuid %>\n\nSie erhalten diese E-Mail, weil Sie der Schöpfer dieses Ereignisses sind."
+      "content": "## „<%= event.name %>“ ist vorbei !\n\n👏 Anzahl der Passagiere : <%= event.passengers.length %>\n🚗 Anzahl der durchgeführten Fahrten : <%= event.travels.length %>\n\nLink zu Ihrem Caroster: <%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>\n\nSie erhalten diese E-Mail, weil Sie der Schöpfer dieses Ereignisses sind."
     },
     "ContactTripCreator": {
       "title": "<%= event.name %> - Fahrer kontaktieren",
-      "content": "Um Ihre Fahrt nach [<%= event.name %>](<%= host %>/e/<%= event.uuid %>) zu organisieren, kontaktieren Sie bitte den Fahrer der von Ihnen angemeldeten Fahrt.\n\n**Fahrt: <%= vehicleName %>**\nAbreise: <%= travel.meeting %>\nDatum/Uhrzeit: <%= datetime %>\nTelefon: <%= travel.phone_number || 'Nicht angegeben' %>\nE-Mail: <%= driver.email %>"
+      "content": "Um Ihre Fahrt nach [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>) zu organisieren, kontaktieren Sie bitte den Fahrer der von Ihnen angemeldeten Fahrt.\n\n**Fahrt: <%= vehicleName %>**\nAbreise: <%= travel.meeting %>\nDatum/Uhrzeit: <%= datetime %>\nTelefon: <%= travel.phone_number || 'Nicht angegeben' %>\nE-Mail: <%= driver.email %>"
     },
     "EnabledCarosterPlus": {
       "title": "<%= event.name %> - Caroster Plus ist jetzt aktiv in Ihrem Ereignis",
-      "content": "Modul 'Caroster Plus' wurde für Ihre Veranstaltung [<%= event.name %>](<%= host %>/e/<%= event.uuid %>) aktiviert."
+      "content": "Modul 'Caroster Plus' wurde für Ihre Veranstaltung [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>) aktiviert."
     }
   }
 }

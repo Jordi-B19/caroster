@@ -14,55 +14,55 @@
     },
     "NewTrip": {
       "title": "<%= event.name %> - Nouveau trajet disponible",
-      "content": "## Nouveau trajet pour \"<%= event.name %>\"\n\n**Trajet: <%= vehicleName %>**\nNombre de places: <%= travel.seats %>\nLieu de départ: <%= travel.meeting %>\nInformations: <%= travel.details %>.\n\n[Réserver ma place](<%= host %>/e/<%= event.uuid %>).\n\nVous recevez cet e-mail car vous êtes inscrit en liste d'attente pour trouver une place de covoiturage dans cet événement."
+      "content": "## Nouveau trajet pour \"<%= event.name %>\"\n\n**Trajet: <%= vehicleName %>**\nNombre de places: <%= travel.seats %>\nLieu de départ: <%= travel.meeting %>\nInformations: <%= travel.details %>.\n\n[Réserver ma place](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>).\n\nVous recevez cet e-mail car vous êtes inscrit en liste d'attente pour trouver une place de covoiturage dans cet événement."
     },
     "NewTripAlert": {
       "title": "<%= event.name %> - Nouveau trajet disponible",
-      "content": "## Nouveau trajet pour \"<%= event.name %>\"\n\n**Trajet: <%= vehicleName %>**\nNombre de places: <%= travel.seats %>\nLieu de départ: <%= travel.meeting %>\nInformations: <%= travel.details %>.\n\n[Réserver ma place](<%= host %>/e/<%= event.uuid %>).\n\nVous recevez cet e-mail car vous avez configuré une alerte de trajet à proximité pour cet événement."
+      "content": "## Nouveau trajet pour \"<%= event.name %>\"\n\n**Trajet: <%= vehicleName %>**\nNombre de places: <%= travel.seats %>\nLieu de départ: <%= travel.meeting %>\nInformations: <%= travel.details %>.\n\n[Réserver ma place](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>).\n\nVous recevez cet e-mail car vous avez configuré une alerte de trajet à proximité pour cet événement."
     },
     "DeletedTrip": {
       "title": "<%= event.name %> - Trajet supprimé",
-      "content": "Le trajet '<%= vehicleName %>' pour lequel vous vous êtes inscrit.e.s a été supprimé. Vous pouvez chercher un autre trajet vous correspondant [ici](<%= host %>/e/<%= event.uuid %>)."
+      "content": "Le trajet '<%= vehicleName %>' pour lequel vous vous êtes inscrit.e.s a été supprimé. Vous pouvez chercher un autre trajet vous correspondant [ici](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>)."
     },
     "DeletedYourTrip": {
       "title": "<%= event.name %> - Votre trajet a été supprimé",
-      "content": "Votre trajet <%= vehicleName %> a été supprimé par un administrateur de l'événement [<%= event.name %>](<%= host %>/e/<%= event.uuid %>). \n Il n'est plus disponible pour l'événement et les passagers ont été informés."
+      "content": "Votre trajet <%= vehicleName %> a été supprimé par un administrateur de l'événement [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>). \n Il n'est plus disponible pour l'événement et les passagers ont été informés."
     },
     "DeletedFromTrip": {
       "title": "<%= event.name %> - Vous avez été retiré(e) d'un trajet ",
-      "content": "Vous avez été retiré(e) du trajet <%= vehicleName %> pour l'événement [<%= event.name %>](<%= host %>/e/<%= event.uuid %>)."
+      "content": "Vous avez été retiré(e) du trajet <%= vehicleName %> pour l'événement [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>)."
     },
     "NewPassengerInYourTrip": {
       "title": "<%= event.name %> - Un passager a été ajouté à votre trajet",
-      "content": "Un passager a été ajouté à votre trajet pour [<%= event.name %>](<%= host %>/e/<%= event.uuid %>)."
+      "content": "Un passager a été ajouté à votre trajet pour [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>)."
     },
     "AssignedByAdmin": {
       "title": "<%= event.name %> - Vous avez été assigné à un trajet",
-      "content": "Un administrateur de l'événement [<%= event.name %>](<%= host %>/e/<%= event.uuid %>) vous a assigné au trajet '<%= vehicleName %>'."
+      "content": "Un administrateur de l'événement [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>) vous a assigné au trajet '<%= vehicleName %>'."
     },
     "AddedAsAdmin": {
       "title": "Vous avez été promu administrateur d'un événement",
-      "content": "Vous avez été promu administrateur sur le Caroster [<%= event.name %>](<%= host %>/e/<%= event.uuid %>)."
+      "content": "Vous avez été promu administrateur sur le Caroster [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>)."
     },
     "EventCreated": {
       "title": "<%= event.name %> - Votre Caroster est prêt !",
-      "content": "## Hurrah, votre Caroster \"<%= event.name %>\" est prêt !\n\nCommencez à vous organiser:\n\n🚗 Ajoutez des trajets\n\n💬 Invitez vos participants à covoiturer en partageant le lien de votre Caroster.\n\nLien de partage:\n<%= host %>/e/<%= event.uuid %>"
+      "content": "## Hurrah, votre Caroster \"<%= event.name %>\" est prêt !\n\nCommencez à vous organiser:\n\n🚗 Ajoutez des trajets\n\n💬 Invitez vos participants à covoiturer en partageant le lien de votre Caroster.\n\nLien de partage:\n<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>"
     },
     "EventEnded": {
       "title": "<%= event.name %> - Votre événement est terminé !",
-      "content": "## \"<%= event.name %>\", c'est terminé !\n\n👏 Nombre de personnes transportées : <%= passengersCount %>\n🚗 Nombre de trajets remplis : <%= travelsCount %>\n\nLien vers votre Caroster: <%= host %>/e/<%= event.uuid %>\n\nVous recevez cet e-mail car vous êtes un admin de cet événement."
+      "content": "## \"<%= event.name %>\", c'est terminé !\n\n👏 Nombre de personnes transportées : <%= passengersCount %>\n🚗 Nombre de trajets remplis : <%= travelsCount %>\n\nLien vers votre Caroster: <%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>\n\nVous recevez cet e-mail car vous êtes un admin de cet événement."
     },
     "EventRecap": {
       "title": "<%= event.name %> - Du nouveau dans votre événement",
-      "content": "## Il y a du nouveau dans votre événement \"<%= event.name %>\"\n\n⏳ Nombre de passagers en recherche d'une place : <%= waitingListCount %>\n🚗 Nombre de trajets : <%= travelsCount %>\n🆕 Nombre de nouveaux trajets : <%= newTravelsCount %>\n\nLien vers votre Caroster: <%= host %>/e/<%= event.uuid %>\n\nVous recevez cet e-mail car vous êtes un admin de cet événement."
+      "content": "## Il y a du nouveau dans votre événement \"<%= event.name %>\"\n\n⏳ Nombre de passagers en recherche d'une place : <%= waitingListCount %>\n🚗 Nombre de trajets : <%= travelsCount %>\n🆕 Nombre de nouveaux trajets : <%= newTravelsCount %>\n\nLien vers votre Caroster: <%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>\n\nVous recevez cet e-mail car vous êtes un admin de cet événement."
     },
     "ContactTripCreator": {
       "title": "<%= event.name %> - Contacter la conductrice ou le conducteur du trajet",
-      "content": "Afin d'organiser votre voyage pour [<%= event.name %>](<%= host %>/e/<%= event.uuid %>), merci de contacter la conductrice ou le conducteur du trajet pour lequel vous vous êtes inscrit⸱e.\n\n**Trajet: <%= vehicleName %>**\nDépart: <%= travel.meeting %>\nDate/heure: <%= datetime %>\nTéléphone: <%= travel.phone_number || 'Non précisé' %>\nE-mail: <%= driver.email %>"
+      "content": "Afin d'organiser votre voyage pour [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>), merci de contacter la conductrice ou le conducteur du trajet pour lequel vous vous êtes inscrit⸱e.\n\n**Trajet: <%= vehicleName %>**\nDépart: <%= travel.meeting %>\nDate/heure: <%= datetime %>\nTéléphone: <%= travel.phone_number || 'Non précisé' %>\nE-mail: <%= driver.email %>"
     },
     "EnabledCarosterPlus": {
       "title": "<%= event.name %> - Caroster Plus a été activé pour votre événement",
-      "content": "Le module 'Caroster Plus' a été activé pour votre événement [<%= event.name %>](<%= host %>/e/<%= event.uuid %>)."
+      "content": "Le module 'Caroster Plus' a été activé pour votre événement [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>)."
     }
   }
 }

@@ -7,7 +7,11 @@ interface MagicTokenPayload {
   lang: string;
 }
 
-export const generateMagicToken = async (email: string, lang: string) => {
+export const generateMagicToken = async (
+  email: string,
+  lang: string,
+  withoutExpiration: boolean
+) => {
   const existingUser = await strapi.db
     .query("plugin::users-permissions.user")
     .findOne({
@@ -26,7 +30,11 @@ export const generateMagicToken = async (email: string, lang: string) => {
     data: { type: "AUTH_TOKEN_GENERATION", payload: { email, lang } },
   });
 
-  return jwt.sign({ email, lang }, MAGICLINK_SECRET, { expiresIn: "20m" });
+  return jwt.sign(
+    { email, lang },
+    MAGICLINK_SECRET,
+    withoutExpiration ? {} : { expiresIn: "20m" }
+  );
 };
 
 export const verifyMagicToken = (token: string) => {

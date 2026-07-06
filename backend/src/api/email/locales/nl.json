@@ -6,43 +6,43 @@
   "notifications": {
     "DeletedTrip": {
       "title": "<%= event.name %> - Reis verwijderd",
-      "content": "De reis waaraan u wilde deelnemen, <%= vehicleName %>, is verwijderd. Ga naar de [Caroster](<%= host %>/e/<%= event.uuid %>)-pagina om een ander voertuig te zoeken."
+      "content": "De reis waaraan u wilde deelnemen, <%= vehicleName %>, is verwijderd. Ga naar de [Caroster](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>)-pagina om een ander voertuig te zoeken."
     },
     "NewTrip": {
       "title": "<%= event.name %> - Nieuwe reis beschikbaar",
-      "content": "## Er is een nieuwe reis beschikbaar voor \"<%= event.name %>\"\n\n**Voertuig: <%= vehicleName %>**\nAantal zitplaatsen: <%= travel.seats %>\nVertreklocatie: <%= travel.meeting %>\nInformatie: <%= travel.details %>.\n\n[Zitplaats reserveren](<%= host %>/e/<%= event.uuid %>).\n\nU ontvangt deze e-mail omdat u uzelf op de carpoolwachtlijst van deze afspraak heeft gezet."
+      "content": "## Er is een nieuwe reis beschikbaar voor \"<%= event.name %>\"\n\n**Voertuig: <%= vehicleName %>**\nAantal zitplaatsen: <%= travel.seats %>\nVertreklocatie: <%= travel.meeting %>\nInformatie: <%= travel.details %>.\n\n[Zitplaats reserveren](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>).\n\nU ontvangt deze e-mail omdat u uzelf op de carpoolwachtlijst van deze afspraak heeft gezet."
     },
     "DeletedYourTrip": {
       "title": "<%= event.name %> - Uw reis is verwijderd",
-      "content": "Uw reis, <%= vehicleName %>, is door een beheerder verwijderd uit de afspraak ‘[<%= event.name %>](<%= host %>/e/<%= event.uuid %>)’."
+      "content": "Uw reis, <%= vehicleName %>, is door een beheerder verwijderd uit de afspraak ‘[<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>)’."
     },
     "DeletedFromTrip": {
       "title": "<%= event.name %> - U bent uit het voertuig verwijderd",
-      "content": "U bent uit het voertuig ‘<%= vehicleName %>’ van de afspraak ‘[<%= event.name %>](<%= host %>/e/<%= event.uuid %>)’ verwijderd."
+      "content": "U bent uit het voertuig ‘<%= vehicleName %>’ van de afspraak ‘[<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>)’ verwijderd."
     },
     "NewPassengerInYourTrip": {
       "title": "<%= event.name %> - Passagier toegevoegd aan reis",
-      "content": "Er is een passagier toegevoegd aan ‘[<%= event.name %>](<%= host %>/e/<%= event.uuid %>)’"
+      "content": "Er is een passagier toegevoegd aan ‘[<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>)’"
     },
     "AssignedByAdmin": {
       "title": "<%= event.name %> - You have been added to a trip",
-      "content": "An administrator of [<%= event.name %>](<%= host %>/e/<%= event.uuid %>) has added you to trip '<%= vehicleName %>'."
+      "content": "An administrator of [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>) has added you to trip '<%= vehicleName %>'."
     },
     "AddedAsAdmin": {
       "title": "U bent toegevoegd als beheerder van een afspraak",
-      "content": "U bent toegevoegd als beheerder van ‘[<%= event.name %>](<%= host %>/e/<%= event.uuid %>)’."
+      "content": "U bent toegevoegd als beheerder van ‘[<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>)’."
     },
     "EventCreated": {
       "title": "<%= event.name %> - Uw Caroster is klaar voor gebruik!",
-      "content": "## Hoezee! Uw Caroster, ‘<%= event.name %>’, is klaar voor gebruik!\n\nHet organiseren kan beginnen:\n\n🚗 Voeg voertuigen toe;\n\n💬 Nodig deelnemers uit door uw Caroster-link te delen.\n\nCaroster-link:\n<%= host %>/e/<%= event.uuid %>"
+      "content": "## Hoezee! Uw Caroster, ‘<%= event.name %>’, is klaar voor gebruik!\n\nHet organiseren kan beginnen:\n\n🚗 Voeg voertuigen toe;\n\n💬 Nodig deelnemers uit door uw Caroster-link te delen.\n\nCaroster-link:\n<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>"
     },
     "EventEnded": {
       "title": "<%= event.name %> - De afspraak is voorbij!",
-      "content": "## ‘<%= event.name %>’ is voorbij!\n\n👏 Aantal passagiers: <%= event.passengers.length %>\n🚗 Aantal gebruikte voertuigen: <%= event.travels.length %>\n\nLink naar uw Caroster: <%= host %>/e/<%= event.uuid %>\n\nU ontvangt deze e-mail omdat u een beheerder van dit evenement bent."
+      "content": "## ‘<%= event.name %>’ is voorbij!\n\n👏 Aantal passagiers: <%= event.passengers.length %>\n🚗 Aantal gebruikte voertuigen: <%= event.travels.length %>\n\nLink naar uw Caroster: <%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>\n\nU ontvangt deze e-mail omdat u een beheerder van dit evenement bent."
     },
     "EventRecap": {
       "title": "<%= event.name %> - Wijzigingen aan afspraak",
-      "content": "## Er hebben wijzigingen plaatsgevonden aan ‘<%= event.name %>’\n\n⏳ Aantal passagiers op wachtlijst: <%= waitingListCount %>\n🚗 Aantal voertuigen: <%= travelsCount %>\n🆕 Aantal nieuwe voertuigen: <%= newTravelsCount %>\n\nLink naar uw Caroster: <%= host %>/e/<%= event.uuid %>\n\nU ontvangt deze e-mail omdat u een beheerder van dit evenement bent."
+      "content": "## Er hebben wijzigingen plaatsgevonden aan ‘<%= event.name %>’\n\n⏳ Aantal passagiers op wachtlijst: <%= waitingListCount %>\n🚗 Aantal voertuigen: <%= travelsCount %>\n🆕 Aantal nieuwe voertuigen: <%= newTravelsCount %>\n\nLink naar uw Caroster: <%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>\n\nU ontvangt deze e-mail omdat u een beheerder van dit evenement bent."
     },
     "ContactTripCreator": {
       "title": "<%= event.name %> - Contact opnemen met bestuurder",
@@ -50,7 +50,7 @@
     },
     "EnabledCarosterPlus": {
       "title": "<%= event.name %> - Caroster+ is geactiveerd op uw afspraak",
-      "content": "De module ‘Caroster+’ is geactiveerd op uw afspraak ‘[<%= event.name %>](<%= host %>/e/<%= event.uuid %>)’."
+      "content": "De module ‘Caroster+’ is geactiveerd op uw afspraak ‘[<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>)’."
     }
   }
 }

@@ -38,11 +38,13 @@ export default () => ({
     variables?: object
   ) {
     try {
-      const emailTemplate = await this.getEmailTemplate(
-        notifType,
-        lang,
-        variables
-      );
+      const token = await strapi.services[
+        "plugin::users-permissions.user"
+      ].magicLink.generateMagicToken(to, lang, true);
+      const emailTemplate = await this.getEmailTemplate(notifType, lang, {
+        ...variables,
+        token,
+      });
       if (!emailTemplate)
         throw new Error(`No locale found for ${notifType} in ${lang}`);
 
@@ -79,11 +81,11 @@ export default () => ({
 
       const subject = _.template(notif.title)({
         ...variables,
-        host: strapi.config.server.siteUrl,
+        host: process.env.FRONTEND_HOST || strapi.config.server.siteUrl,
       });
       const mdContent = _.template(notif.content)({
         ...variables,
-        host: strapi.config.server.siteUrl,
+        host: process.env.FRONTEND_HOST || strapi.config.server.siteUrl,
       });
       const mdFooter = matchingLocale.template.footer;
       const carosterLink = matchingLocale.template.carosterLink;

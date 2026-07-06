@@ -34,18 +34,7 @@ export default {
   },
 
   async afterUpdate({ result }) {
-    const { passengers = [], seats, event } = result;
-
-    // If count of seats is updated, move passengers excedent to event's waiting list
-    const overflowPassengers = passengers.slice?.(seats);
-    if (overflowPassengers?.length > 0) {
-      await Promise.all(
-        overflowPassengers.map(movePassengerToWaitingList(event.id))
-      );
-      strapi.log.info(
-        `${overflowPassengers.length} passengers moved to event ${event.id} waiting list`
-      );
-    }
+    await strapi.service("api::travel.travel").checkOverflowOrUnderflow(result);
   },
 
   async beforeDelete({ params }) {
@@ -64,10 +53,7 @@ export default {
     if (!travel) return;
 
     const hasPassengers = travel?.passengers?.length > 0;
-    const enabledModules = travel.event?.enabled_modules as String[];
-    const isEventCarosterPlus = enabledModules?.includes("caroster-plus");
 
-    // If Caroster Plus, send notification to passengers
     if (hasPassengers) {
       const users = travel.passengers
         .map((passenger) => passenger.user || passenger.email)

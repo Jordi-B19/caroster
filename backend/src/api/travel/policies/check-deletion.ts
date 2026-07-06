@@ -14,37 +14,35 @@ export default async (policyContext, config, { strapi }) => {
 
   const event = travel.event;
 
-  if (event.enabled_modules?.includes("caroster-plus")) {
-    const user = policyContext.state.user;
-    if (!user) throw new errors.ForbiddenError();
+  const user = policyContext.state.user;
+  if (!user) throw new errors.ForbiddenError();
 
-    const admins = event.administrators?.split(/, ?/) || [];
-    const isAdmin = [...admins, event.email].includes(user.email);
+  const admins = event.administrators?.split(/, ?/) || [];
+  const isAdmin = [...admins, event.email].includes(user.email);
 
-    if (isAdmin) {
-      const vehicleName =
-        travel.firstname && travel.lastname
-          ? `${travel.firstname} ${travel.lastname[0]}.`
-          : travel.vehicleName;
-      if (travel.user)
-        await strapi.entityService.create("api::notification.notification", {
-          data: {
-            type: "DeletedYourTrip",
-            event,
-            user: travel.user,
-            payload: { travel, vehicleName },
-          },
+  if (isAdmin) {
+    const vehicleName =
+      travel.firstname && travel.lastname
+        ? `${travel.firstname} ${travel.lastname[0]}.`
+        : travel.vehicleName;
+    if (travel.user)
+      await strapi.entityService.create("api::notification.notification", {
+        data: {
+          type: "DeletedYourTrip",
+          event,
+          user: travel.user,
+          payload: { travel, vehicleName },
+        },
+      });
+    else if (travel.email)
+      await strapi
+        .service("api::email.email")
+        .sendEmailNotif(travel.email, "DeletedYourTrip", event.lang, {
+          travel,
+          vehicleName,
+          event,
         });
-      else if (travel.email)
-        await strapi
-          .service("api::email.email")
-          .sendEmailNotif(travel.email, "DeletedYourTrip", event.lang, {
-            travel,
-            vehicleName,
-            event,
-          });
-      return true;
-    } else if (travel.user?.email === user.email) return true;
-    else return false;
-  }
+    return true;
+  } else if (travel.user?.email === user.email) return true;
+  else return false;
 };

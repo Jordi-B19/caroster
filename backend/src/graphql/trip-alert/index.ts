@@ -7,6 +7,7 @@ export default [
         type: "TripAlertEntityResponse",
         args: {
           event: nexus.nonNull("ID"),
+          date: "String",
         },
       }),
       nexus.mutationField("setTripAlert", {
@@ -18,6 +19,7 @@ export default [
           longitude: "Float",
           radius: "Float",
           address: "String",
+          date: "String",
         },
       }),
     ],
@@ -34,6 +36,7 @@ export default [
                 filters: {
                   user: user.id,
                   event: args.event,
+                  date: args.date,
                 },
               }
             );
@@ -105,7 +108,12 @@ export default [
         auth: true,
       },
       "Mutation.setTripAlert": {
-        auth: true,
+        auth: false,
+        policies: ["api::trip-alert.check-creation"],
+      },
+      "Mutation.deleteTripAlert": {
+        auth: false,
+        policies: ["api::trip-alert.check-deletion"],
       },
       "TripAlert.user": {
         auth: true,

@@ -19,29 +19,9 @@ export default async (policyContext, _config, { strapi }) => {
         .findOne({
           where: { email },
         });
-      const username = [
-        policyContext.args.data.name,
-        policyContext.args.data.lastname,
-      ]
-        .filter(Boolean)
-        .join(" ");
-      const firstName = policyContext.args.data.name;
-      const lastName = policyContext.args.data.lastname;
-      if (user)
-        user = await strapi.db.query("plugin::users-permissions.user").update({
-          where: { id: user.id },
-          data: {
-            username,
-            firstName,
-            lastName,
-          },
-        });
       if (!user) {
         user = await strapi.db.query("plugin::users-permissions.user").create({
           data: {
-            username,
-            firstName,
-            lastName,
             email,
             lang: "fr",
             confirmed: true,
@@ -52,7 +32,7 @@ export default async (policyContext, _config, { strapi }) => {
       const token = await strapi.services[
         "plugin::users-permissions.user"
       ].magicLink.generateMagicToken(email, "fr", true);
-      policyContext.http.set("Authorization", `Bearer ${token}`);
+      policyContext.res.headers.authorization = `Bearer ${token}`;
       policyContext.args.data.user = user.id;
       policyContext.state.user = user;
     }
