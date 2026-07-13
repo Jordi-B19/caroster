@@ -28,6 +28,7 @@ export default {
               type: "NewPassengerInYourTrip",
               event: params.data.event,
               user: travel.user?.id,
+              payload: { passenger: params.data },
             },
           });
         else if (travel.email)
@@ -37,7 +38,7 @@ export default {
               travel.email,
               "NewPassengerInYourTrip",
               travel.event.lang || "en",
-              { event: travel.event }
+              { event: travel.event, passenger: params.data }
             );
       if (travel && state.isAdmin) {
         const vehicleName =

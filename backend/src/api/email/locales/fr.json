@@ -34,7 +34,7 @@
     },
     "NewPassengerInYourTrip": {
       "title": "<%= event.name %> - Un passager a été ajouté à votre trajet",
-      "content": "Un passager a été ajouté à votre trajet pour [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>)."
+      "content": "Un passager a été ajouté à votre trajet pour [<%= event.name %>](<%= host %>/e/<%= event.uuid %>?carosterToken=<%= token %>).\n\n**Détails du passager : <%= passenger.name %>**\nTéléphone: <%= passenger.phone_number || 'Non précisé' %>\nE-mail: <%= passenger.email %>"
     },
     "AssignedByAdmin": {
       "title": "<%= event.name %> - Vous avez été assigné à un trajet",
