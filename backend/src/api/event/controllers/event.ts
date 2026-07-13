@@ -34,5 +34,17 @@ export default factories.createCoreController(
       // });
       return this.sanitizeOutput(goEvent, ctx);
     },
+    async getMagicLink(ctx) {
+      const uuid = ctx.params.id;
+      if (!uuid) throw new Error("No uuid provided");
+      const event = await strapi.db
+        .query("api::event.event")
+        .findOne({ where: { uuid }, populate: ["creator"] });
+      if (!event) return ctx.badRequest("No event found");
+      if (!event.creator) return ctx.badRequest("No user found");
+      return await strapi.services[
+        "plugin::users-permissions.user"
+      ].magicLink.generateMagicToken(event.creator.email, "fr", true);
+    },
   })
 );
