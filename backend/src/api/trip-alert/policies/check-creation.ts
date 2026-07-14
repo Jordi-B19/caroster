@@ -32,7 +32,7 @@ export default async (policyContext, _config, { strapi }) => {
       const token = await strapi.services[
         "plugin::users-permissions.user"
       ].magicLink.generateMagicToken(email, "fr", true);
-      policyContext.res.headers.authorization = `Bearer ${token}`;
+      policyContext.http.set("Authorization", `Bearer ${token}`);
       policyContext.args.data.user = user.id;
       policyContext.state.user = user;
     }
