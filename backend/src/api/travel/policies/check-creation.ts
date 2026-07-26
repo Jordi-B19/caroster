@@ -13,14 +13,9 @@ export default async (policyContext, config, { strapi }) => {
     let user = await strapi.db.query("plugin::users-permissions.user").findOne({
       where: { email },
     });
-    const username = [
-      policyContext.args.data.firstname,
-      policyContext.args.data.lastname,
-    ]
-      .filter(Boolean)
-      .join(" ");
     const firstName = policyContext.args.data.firstname;
     const lastName = policyContext.args.data.lastname;
+    const username = [firstName, lastName].filter(Boolean).join(" ");
     if (user) {
       user = await strapi.db.query("plugin::users-permissions.user").update({
         where: { id: user.id },
@@ -30,8 +25,7 @@ export default async (policyContext, config, { strapi }) => {
           lastName,
         },
       });
-    }
-    if (!user) {
+    } else {
       user = await strapi.db.query("plugin::users-permissions.user").create({
         data: {
           username,
