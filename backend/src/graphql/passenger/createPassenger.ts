@@ -75,6 +75,7 @@ const createPassenger = {
             .format("dddd LL")
         : "";
       const datetime = `${date} ${travel.departureTime || ""}`;
+      const dateFormat = moment(travel?.departureDate).format("YYYY-MM-DD");
       try {
         const vehicleName =
           travel.firstname && travel.lastname
@@ -87,7 +88,13 @@ const createPassenger = {
               event: createdPassenger.event.id,
               user: createdPassenger.user.id,
               // @ts-expect-error
-              payload: { travel, driver, datetime, vehicleName },
+              payload: {
+                travel,
+                driver,
+                datetime,
+                vehicleName,
+                date: dateFormat,
+              },
             },
           });
         else if (createdPassenger.email)
@@ -103,6 +110,7 @@ const createPassenger = {
                 driver,
                 datetime,
                 vehicleName,
+                date: dateFormat,
               }
             );
       } catch (error) {

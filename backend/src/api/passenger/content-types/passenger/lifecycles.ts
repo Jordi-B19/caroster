@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export default {
   async beforeCreate(event) {
     event.state.isAdmin = event.params.data.isAdmin;
@@ -21,6 +23,7 @@ export default {
           populate: ["user", "event"],
         }
       );
+      const date = moment(travel?.departureDate).format("YYYY-MM-DD");
       if (travel)
         if (travel.user)
           strapi.entityService.create("api::notification.notification", {
@@ -28,7 +31,7 @@ export default {
               type: "NewPassengerInYourTrip",
               event: params.data.event,
               user: travel.user?.id,
-              payload: { passenger: params.data },
+              payload: { passenger: params.data, date },
             },
           });
         else if (travel.email)
@@ -38,7 +41,7 @@ export default {
               travel.email,
               "NewPassengerInYourTrip",
               travel.event.lang || "en",
-              { event: travel.event, passenger: params.data }
+              { event: travel.event, passenger: params.data, date }
             );
       if (travel && state.isAdmin) {
         const vehicleName =
@@ -52,7 +55,7 @@ export default {
               event: params.data.event,
               user: params.data.user,
               // @ts-expect-error
-              payload: { travel, vehicleName },
+              payload: { travel, vehicleName, date },
             },
           });
         else if (params.data.email)
@@ -62,7 +65,7 @@ export default {
               params.data.email,
               "AssignedByAdmin",
               travel.event.lang || "en",
-              { travel, vehicleName, event: travel.event }
+              { travel, vehicleName, event: travel.event, date }
             );
       }
     }

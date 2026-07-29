@@ -1,4 +1,5 @@
 import { errors } from "@strapi/utils";
+import moment from "moment";
 
 export default async (policyContext, config, { strapi }) => {
   const travelId = policyContext.args?.id;
@@ -25,13 +26,14 @@ export default async (policyContext, config, { strapi }) => {
       travel.firstname && travel.lastname
         ? `${travel.firstname} ${travel.lastname[0]}.`
         : travel.vehicleName;
+    const date = moment(travel.departureDate).format("YYYY-MM-DD");
     if (travel.user)
       await strapi.entityService.create("api::notification.notification", {
         data: {
           type: "DeletedYourTrip",
           event,
           user: travel.user,
-          payload: { travel, vehicleName },
+          payload: { travel, vehicleName, date },
         },
       });
     else if (travel.email)
@@ -40,6 +42,7 @@ export default async (policyContext, config, { strapi }) => {
         .sendEmailNotif(travel.email, "DeletedYourTrip", event.lang, {
           travel,
           vehicleName,
+          date,
           event,
         });
     return true;

@@ -1,5 +1,6 @@
 import _uniq from "lodash/uniq";
 import pMap from "p-map";
+import moment from "moment";
 
 export default {
   async afterCreate({ result, params }) {
@@ -58,6 +59,7 @@ export default {
       const users = travel.passengers
         .map((passenger) => passenger.user || passenger.email)
         .filter(Boolean);
+      const date = moment(travel.departureDate).format("YYYY-MM-DD");
 
       const vehicleName =
         travel.firstname && travel.lastname
@@ -69,14 +71,19 @@ export default {
           typeof user === "string"
             ? strapi
                 .service("api::email.email")
-                .sendEmailNotif(user, "DeletedTrip", travel.event.lang || "en")
+                .sendEmailNotif(
+                  user,
+                  "DeletedTrip",
+                  travel.event.lang || "en",
+                  { travel, vehicleName, date, event: travel.event }
+                )
             : strapi.entityService.create("api::notification.notification", {
                 data: {
                   type: "DeletedTrip",
                   event: travel.event.id,
                   user: user.id,
                   // @ts-expect-error
-                  payload: { travel, vehicleName, event: travel.event },
+                  payload: { travel, vehicleName, date },
                 },
               }),
         { concurrency: 5 }
@@ -124,7 +131,7 @@ const sendEmailsToWaitingPassengers = async (
             type: "NewTrip",
             event: eventId,
             user: user.id,
-            payload: { travel, vehicleName },
+            payload: { travel, vehicleName, date },
           },
         }),
       { concurrency: 5 }
@@ -150,6 +157,7 @@ const sendEmailsToWaitingPassengers = async (
           event,
           travel,
           vehicleName,
+          date,
         }),
     { concurrency: 5 }
   );

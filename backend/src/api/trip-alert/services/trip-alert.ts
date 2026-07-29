@@ -58,7 +58,7 @@ export default factories.createCoreService(
               type: "NewTripAlert",
               event: eventId,
               user: tripAlert.user.id,
-              payload: { travel, vehicleName },
+              payload: { travel, vehicleName, date },
             },
           });
         else if (tripAlert.email)
@@ -68,7 +68,7 @@ export default factories.createCoreService(
               tripAlert.email,
               "NewTripAlert",
               tripAlert.event.lang || "en",
-              { travel, vehicleName, event: tripAlert.event }
+              { travel, vehicleName, event: tripAlert.event, date }
             );
       });
     },
