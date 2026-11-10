@@ -1801,6 +1801,7 @@ __metadata:
     "@strapi/plugin-i18n": "npm:4.25.23"
     "@strapi/plugin-sentry": "npm:^4.26.1"
     "@strapi/plugin-users-permissions": "npm:4.26.1"
+    "@strapi/provider-email-console": "file:src/providers/strapi-provider-email-console"
     "@strapi/provider-email-nodemailer": "npm:^4.26.1"
     "@strapi/strapi": "npm:4.26.1"
     "@types/react": "npm:^19.2.13"
@@ -6997,6 +6998,13 @@ __metadata:
   version: 4.26.1
   resolution: "@strapi/provider-audit-logs-local@npm:4.26.1"
   checksum: 10c0/f37f1e928d4939bd9278309f2a664ab433cc13a7c42a07dca0a66b62450f9a98fb6734ef287e9c2d795b2d5ec68ba3d066f9ab43004578ca289de52c077223e2
+  languageName: node
+  linkType: hard
+
+"@strapi/provider-email-console@file:src/providers/strapi-provider-email-console::locator=%40caroster%2Fbackend%40workspace%3Abackend":
+  version: 1.0.0
+  resolution: "@strapi/provider-email-console@file:src/providers/strapi-provider-email-console#src/providers/strapi-provider-email-console::hash=0ba7df&locator=%40caroster%2Fbackend%40workspace%3Abackend"
+  checksum: 10c0/b608e5345b44613ca1e24da030d0ecfabeca6d2b3781624a0803bccf20b89f87baaee041cab63c7bf99bce87ce89e7920e05e4e8520d6eae401173e5082dfb77
   languageName: node
   linkType: hard
 
