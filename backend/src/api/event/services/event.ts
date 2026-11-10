@@ -4,10 +4,24 @@ import { factories } from "@strapi/strapi";
 export default factories.createCoreService(
   "api::event.event",
   ({ strapi }) => ({
-    getWaitingPassengers: async (event, date?: string) => {
-      return strapi.entityService.findMany("api::passenger.passenger", {
+    getWaitingPassengers: async (
+      event,
+      date?: string,
+      filters = {},
+      sort = [],
+      pagination = {}
+    ) => {
+      filters = {
+        ...(date
+          ? { date }
+          : {
+              $or: [{ date: { $gte: new Date() } }, { date: { $null: true } }],
+            }),
+        ...filters,
+      };
+      return await strapi.entityService.findMany("api::passenger.passenger", {
         filters: {
-          ...(date ? { date } : {}),
+          ...filters,
           event: { id: event.id },
           travel: {
             id: {
@@ -16,19 +30,60 @@ export default factories.createCoreService(
           },
         },
         populate: ["travel", "user"],
+        sort,
+        pagination,
       });
     },
-    getTripAlerts: async (event, date?: string) => {
+    getTravels: async (
+      event,
+      date?: string,
+      filters = {},
+      sort = [],
+      pagination = {}
+    ) => {
+      filters = {
+        ...(date
+          ? { departureDate: date }
+          : { departureDate: { $gte: new Date() } }),
+        ...filters,
+      };
+      return await strapi.entityService.findMany("api::travel.travel", {
+        filters: {
+          ...filters,
+          event: { id: event.id },
+        },
+        populate: ["passengers", "user"],
+        sort,
+        pagination,
+      });
+    },
+    getTripAlerts: async (
+      event,
+      date?: string,
+      filters = {},
+      sort?: any[],
+      pagination = {}
+    ) => {
+      filters = {
+        ...(date
+          ? { date }
+          : {
+              $or: [{ date: { $gte: new Date() } }, { date: { $null: true } }],
+            }),
+        user: { $not: null },
+        enabled: true,
+        ...filters,
+      };
       const tripAlerts = await strapi.entityService.findMany(
         "api::trip-alert.trip-alert",
         {
           filters: {
-            ...(date ? { date } : {}),
+            ...filters,
             event: { id: event.id },
-            user: { $not: null },
-            enabled: true,
           },
           populate: ["user"],
+          sort,
+          pagination,
         }
       );
       const eventPassengers = await strapi.entityService.findMany(

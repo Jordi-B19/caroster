@@ -1,162 +1,209 @@
-export default ({ nexus, strapi }) => ({
-  types: [
-    nexus.extendType({
-      type: "Event",
-      definition(t) {
-        t.field("waitingPassengers", {
-          type: "PassengerRelationResponseCollection",
-          args: {
-            date: "String",
-          },
-        });
-        t.field("tripAlerts", {
-          type: "TripAlertEntityResponseCollection",
-          args: {
-            date: "String",
-          },
-        });
-      },
-    }),
-    nexus.extendType({
-      type: "Query",
-      definition(t) {
-        t.field("eventByUUID", {
-          type: "EventEntityResponse",
-          args: {
-            uuid: nexus.nonNull("String"),
-          },
-        });
-      },
-    }),
-    nexus.extendType({
-      type: "Mutation",
-      definition(t) {
-        t.field("updateEventByUUID", {
-          type: "EventEntityResponse",
-          args: {
-            uuid: nexus.nonNull("String"),
-            data: nexus.nonNull("EventInput"),
-          },
-        });
-      },
-    }),
-  ],
-  resolvers: {
-    Event: {
-      waitingPassengers: async (root, args) => {
-        const waitingPassengers = await strapi
-          .service("api::event.event")
-          .getWaitingPassengers(root, args.date || undefined);
-        const { toEntityResponseCollection } = strapi
-          .plugin("graphql")
-          .service("format").returnTypes;
-        return toEntityResponseCollection(waitingPassengers, {
-          args,
-          resourceUID: "api::passenger.passenger",
-        });
-      },
-      tripAlerts: async (root, args) => {
-        const tripAlerts = await strapi
-          .service("api::event.event")
-          .getTripAlerts(root, args.date || undefined);
-        const { toEntityResponseCollection } = strapi
-          .plugin("graphql")
-          .service("format").returnTypes;
-        return toEntityResponseCollection(tripAlerts, {
-          args,
-          resourceUID: "api::trip-alert.trip-alert",
-        });
-      },
-    },
-    Query: {
-      eventByUUID: {
-        description: "Retrieve an event using its UUID",
-        async resolve(_root, args) {
-          const { uuid } = args;
-          const event = await strapi.db
-            .query("api::event.event")
-            .findOne({ where: { uuid } });
-          if (!event) {
-            strapi.log.warn(`No event found for uuid ${uuid}`);
-            throw new Error("No matching event");
-          }
-          const { toEntityResponse } = strapi
+export default ({ nexus, strapi }) => {
+  return {
+    types: [
+      nexus.extendType({
+        type: "Event",
+        definition(t) {
+          t.field("waitingPassengers", {
+            type: "PassengerRelationResponseCollection",
+            args: {
+              pagination: "PaginationArg",
+              filters: "PassengerFiltersInput",
+              sort: nexus.list("String"),
+              date: "String",
+            },
+          });
+          t.field("tripAlerts", {
+            type: "TripAlertRelationResponseCollection",
+            args: {
+              pagination: "PaginationArg",
+              filters: "TripAlertFiltersInput",
+              sort: nexus.list("String"),
+              date: "String",
+            },
+          });
+          t.field("travels", {
+            type: "TravelRelationResponseCollection",
+            args: {
+              pagination: "PaginationArg",
+              filters: "TravelFiltersInput",
+              sort: nexus.list("String"),
+              date: "String",
+            },
+          });
+        },
+      }),
+      nexus.extendType({
+        type: "Query",
+        definition(t) {
+          t.field("eventByUUID", {
+            type: "EventEntityResponse",
+            args: {
+              uuid: nexus.nonNull("String"),
+            },
+          });
+        },
+      }),
+      nexus.extendType({
+        type: "Mutation",
+        definition(t) {
+          t.field("updateEventByUUID", {
+            type: "EventEntityResponse",
+            args: {
+              uuid: nexus.nonNull("String"),
+              data: nexus.nonNull("EventInput"),
+            },
+          });
+        },
+      }),
+    ],
+    resolvers: {
+      Event: {
+        waitingPassengers: async (root, args) => {
+          const waitingPassengers = await strapi
+            .service("api::event.event")
+            .getWaitingPassengers(
+              root,
+              args.date || undefined,
+              args.filters || undefined,
+              args.sort || undefined,
+              args.pagination || undefined
+            );
+          const { toEntityResponseCollection } = strapi
             .plugin("graphql")
             .service("format").returnTypes;
-          return toEntityResponse(event, {
+          return toEntityResponseCollection(waitingPassengers, {
             args,
-            resourceUID: "api::event.event",
+            resourceUID: "api::passenger.passenger",
+          });
+        },
+        travels: async (root, args) => {
+          const waitingPassengers = await strapi
+            .service("api::event.event")
+            .getTravels(
+              root,
+              args.date || undefined,
+              args.filters || undefined,
+              args.sort || undefined,
+              args.pagination || undefined
+            );
+          const { toEntityResponseCollection } = strapi
+            .plugin("graphql")
+            .service("format").returnTypes;
+          return toEntityResponseCollection(waitingPassengers, {
+            args,
+            resourceUID: "api::travel.travel",
+          });
+        },
+        tripAlerts: async (root, args) => {
+          const tripAlerts = await strapi
+            .service("api::event.event")
+            .getTripAlerts(
+              root,
+              args.date || undefined,
+              args.filters || undefined,
+              args.sort || undefined,
+              args.pagination || undefined
+            );
+          const { toEntityResponseCollection } = strapi
+            .plugin("graphql")
+            .service("format").returnTypes;
+          return toEntityResponseCollection(tripAlerts, {
+            args,
+            resourceUID: "api::trip-alert.trip-alert",
           });
         },
       },
-    },
-    Mutation: {
-      updateEventByUUID: {
-        description: "Update an event using its UUID",
-        async resolve(_root, args) {
-          const { uuid, data: eventUpdate } = args;
-
-          const updatedEvent = await strapi.db
-            .query("api::event.event")
-            .update({ where: { uuid }, data: eventUpdate });
-          if (!updatedEvent) throw new Error("No matching event");
-
-          const { toEntityResponse } = strapi
-            .plugin("graphql")
-            .service("format").returnTypes;
-          return toEntityResponse(updatedEvent, {
-            args,
-            resourceUID: "api::event.event",
-          });
+      Query: {
+        eventByUUID: {
+          description: "Retrieve an event using its UUID",
+          async resolve(_root, args) {
+            const { uuid } = args;
+            const event = await strapi.db
+              .query("api::event.event")
+              .findOne({ where: { uuid } });
+            if (!event) {
+              strapi.log.warn(`No event found for uuid ${uuid}`);
+              throw new Error("No matching event");
+            }
+            const { toEntityResponse } = strapi
+              .plugin("graphql")
+              .service("format").returnTypes;
+            return toEntityResponse(event, {
+              args,
+              resourceUID: "api::event.event",
+            });
+          },
         },
       },
-      createEvent: {
-        async resolve(_root, args, context) {
-          const {
-            koaContext,
-            state: { user },
-          } = context;
+      Mutation: {
+        updateEventByUUID: {
+          description: "Update an event using its UUID",
+          async resolve(_root, args) {
+            const { uuid, data: eventUpdate } = args;
 
-          let eventData = args.data;
-          if (user)
-            eventData = { ...eventData, users: [user.id], creator: user.id };
+            const updatedEvent = await strapi.db
+              .query("api::event.event")
+              .update({ where: { uuid }, data: eventUpdate });
+            if (!updatedEvent) throw new Error("No matching event");
 
-          koaContext.request.body = eventData;
+            const { toEntityResponse } = strapi
+              .plugin("graphql")
+              .service("format").returnTypes;
+            return toEntityResponse(updatedEvent, {
+              args,
+              resourceUID: "api::event.event",
+            });
+          },
+        },
+        createEvent: {
+          async resolve(_root, args, context) {
+            const {
+              koaContext,
+              state: { user },
+            } = context;
 
-          const createdEvent = await strapi
-            .controller("api::event.event")
-            .create(koaContext);
+            let eventData = args.data;
+            if (user)
+              eventData = { ...eventData, users: [user.id], creator: user.id };
 
-          return {
-            value: createdEvent,
-            info: { args, resourceUID: "api::event.event" },
-          };
+            koaContext.request.body = eventData;
+
+            const createdEvent = await strapi
+              .controller("api::event.event")
+              .create(koaContext);
+
+            return {
+              value: createdEvent,
+              info: { args, resourceUID: "api::event.event" },
+            };
+          },
         },
       },
     },
-  },
-  resolversConfig: {
-    "Query.eventByUUID": {
-      auth: false,
+    resolversConfig: {
+      "Query.eventByUUID": {
+        auth: false,
+      },
+      "Mutation.updateEventByUUID": {
+        auth: false,
+        policies: ["api::event.check-caroster-plus"],
+      },
+      "Event.passengers": {
+        auth: false,
+      },
+      "Event.waitingPassengers": {
+        auth: false,
+      },
+      "Event.tripAlerts": {
+        auth: true,
+      },
+      "Event.travels": {
+        auth: false,
+      },
+      "Event.linkedEvent": {
+        auth: false,
+      },
     },
-    "Mutation.updateEventByUUID": {
-      auth: false,
-      policies: ["api::event.check-caroster-plus"],
-    },
-    "Event.passengers": {
-      auth: false,
-    },
-    "Event.waitingPassengers": {
-      auth: false,
-    },
-    "Event.tripAlerts": {
-      auth: true,
-    },
-    "Event.travels": {
-      auth: false,
-    },
-    "Event.linkedEvent": {
-      auth: false,
-    },
-  },
-});
+  };
+};

@@ -13,11 +13,12 @@ fragment EventFields on EventEntity {
     latitude
     longitude
     isReturnEvent
-    waitingPassengers {
+    waitingPassengers(pagination: {limit: 500}) {
       data {
         id
         attributes {
           name
+          lastname
           email
           location
           date
@@ -47,7 +48,6 @@ fragment EventFields on EventEntity {
           firstname
           lastname
           phone_number
-          phoneCountry
           seats
           user {
             data {
@@ -63,10 +63,10 @@ fragment EventFields on EventEntity {
               id
               attributes {
                 name
+                lastname
                 location
                 email
                 phone
-                phoneCountry
                 user {
                   data {
                     id

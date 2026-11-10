@@ -2,9 +2,9 @@ fragment PassengerFields on PassengerEntity {
   id
   attributes {
     name
+    lastname
     location
     phone
-    phoneCountry
     email
     date
     user {
