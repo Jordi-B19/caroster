@@ -11,7 +11,9 @@
       "runtimeExecutable": "yarn",
       "runtimeArgs": ["workspace", "@caroster/backend", "run", "develop"],
       "skipFiles": ["<node_internals>/**"],
-      "outputCapture": "std"
+      "outputCapture": "std",
+      "outFiles": ["${workspaceFolder}/**/*.(m|c|)js", "!**/node_modules/**"],
+      "sourceMaps": true
     },
     {
       "type": "node",
@@ -26,7 +28,9 @@
         "--watch-admin"
       ],
       "skipFiles": ["<node_internals>/**"],
-      "outputCapture": "std"
+      "outputCapture": "std",
+      "outFiles": ["${workspaceFolder}/**/*.(m|c|)js", "!**/node_modules/**"],
+      "sourceMaps": true
     }
   ]
 }
