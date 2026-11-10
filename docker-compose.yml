@@ -1,47 +1,12 @@
 version: "3"
 services:
   app:
-    image: octree/caroster
+    image: jordib1992/caroster
     build:
+      dockerfile: ./backend.Dockerfile
       context: .
     ports:
-      - 8080:80
+      - 1337:1337
     environment:
-      STRAPI_URL: http://localhost:8080
-      DATABASE_HOST: psql
-      DATABASE_NAME: caroster
-      DATABASE_USERNAME: postgres
-      DATABASE_PASSWORD: 6Akfg28GAU
-      APP_KEYS: toBeModified1,toBeModified2
-      API_TOKEN_SALT: tobemodified
-      ADMIN_JWT_SECRET: tobemodified
-      JWT_SECRET: tobemodified
-      NEXTAUTH_SECRET: tobemodified
-      NEXTAUTH_URL: http://localhost:8080/api/nauth
-      NEXTAUTH_URL_INTERNAL: http://localhost:3000/api/nauth
-      INIT_ADMIN_USERNAME: admin
-      INIT_ADMIN_PASSWORD: caroster
-      INIT_ADMIN_FIRSTNAME: Admin
-      INIT_ADMIN_LASTNAME: Caroster
-      INIT_ADMIN_EMAIL: admin@example.org
-      MAPBOX_URL: https://api.mapbox.com/
-      MAPBOX_TOKEN: # TO SET
-
-      ## Set your SMTP configuration
-      # SMTP_HOST:
-      # SMTP_PORT:
-      # SMTP_USERNAME:
-      # SMTP_PASSWORD:
-
-  psql:
-    image: postgres
-    volumes:
-      - psql_data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-    environment:
-      POSTGRES_PASSWORD: 6Akfg28GAU
-      POSTGRES_DB: caroster
-
-volumes:
-  psql_data:
+      STRAPI_URL: https://econature-caroster2-gth6gfhmgqcwfjg8.francecentral-01.azurewebsites.net
+      NODE_ENV: production
