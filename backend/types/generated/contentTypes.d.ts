@@ -649,7 +649,6 @@ export interface ApiPassengerPassenger extends Schema.CollectionType {
     location: Attribute.String;
     name: Attribute.String & Attribute.Required;
     phone: Attribute.String;
-    phoneCountry: Attribute.String;
     travel: Attribute.Relation<
       'api::passenger.passenger',
       'manyToOne',
@@ -804,7 +803,6 @@ export interface ApiTravelTravel extends Schema.CollectionType {
       'api::passenger.passenger'
     >;
     phone_number: Attribute.String;
-    phoneCountry: Attribute.String;
     seats: Attribute.Integer &
       Attribute.SetMinMax<
         {

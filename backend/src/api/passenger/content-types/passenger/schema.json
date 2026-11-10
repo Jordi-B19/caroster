@@ -16,6 +16,9 @@
       "type": "string",
       "required": true
     },
+    "lastname": {
+      "type": "string"
+    },
     "email": {
       "type": "email",
       "required": false
@@ -45,9 +48,6 @@
       "type": "date"
     },
     "phone": {
-      "type": "string"
-    },
-    "lastname": {
       "type": "string"
     }
   }
