@@ -9,9 +9,9 @@ export default factories.createCoreController(
       if (!uuid) throw new Error("No uuid provided");
       const event = await strapi.db
         .query("api::event.event")
-        .findOne({ where: { uuid } });
+        .findOne({ where: !Number(uuid) ? { uuid } : { id: uuid } });
       if (event) return this.sanitizeOutput(event, ctx);
-      else return ctx.badRequest("No event found");
+      else return ctx.notFound("No event found");
     },
 
     async create(ctx) {
